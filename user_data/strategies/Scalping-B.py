@@ -210,6 +210,7 @@ class ScalpingB(IStrategy):
             informative_pairs += [(pair, '1h') for pair in pairs]
         return informative_pairs
 
+
     # Indikatoren berechnen
     def populate_indicators(self, dataframe: pd.DataFrame, metadata: dict) -> pd.DataFrame:
         if not self.dp:
@@ -234,6 +235,41 @@ class ScalpingB(IStrategy):
         if(self.timeframe == '1h'):
             dataframe["enter_1h"] = 0
             dataframe["exit_1h"] = 0
+
+        dataframe["change"] = (100 / dataframe['open'] * dataframe['close'] - 100)
+
+        dataframe['vol_ma'] = dataframe['volume'].rolling(window=30).mean()
+        dataframe['vc'] = 0
+        dataframe.loc[((dataframe['open'] < dataframe['close']) & (dataframe['volume'] > dataframe['vol_ma'])), 'vc'] = 1
+
+        dataframe["rsi"] = ta.RSI(dataframe)
+        dataframe["rsi_ma"] = ta.SMA(dataframe['rsi'], timeperiod=14)
+        dataframe["rsi_mid"] = 50
+        dataframe['rc'] = 0
+        dataframe.loc[
+            (
+                ((dataframe['rsi'].shift(1) < 50) & (dataframe['rsi'] > 50)) |
+                ((dataframe['rsi'].shift(2) < 50) & (dataframe['rsi'].shift(1) > 50)) |
+                ((dataframe['rsi'].shift(3) < 50) & (dataframe['rsi'].shift(2) > 50))
+            ),
+            'rc'] = 1
+
+        stoch = ta.STOCH(dataframe)
+        dataframe["slowd"] = stoch["slowd"]
+        dataframe["slowk"] = stoch["slowk"]
+        #dataframe = self.calc_stoch(dataframe, metadata['pair'])
+
+        macd = ta.MACD(dataframe)
+        dataframe["macd"] = macd["macd"]
+        dataframe["macdsignal"] = macd["macdsignal"]
+        dataframe["mc"] = 0
+        dataframe.loc[
+            (
+                ((dataframe['macd'].shift(1) < dataframe['macdsignal'].shift(1)) & (dataframe['macd'] > dataframe['macdsignal'])) |
+                ((dataframe['macd'].shift(2) < dataframe['macdsignal'].shift(2)) & (dataframe['macd'].shift(1) > dataframe['macdsignal'].shift(1))) |
+                ((dataframe['macd'].shift(3) < dataframe['macdsignal'].shift(3)) & (dataframe['macd'].shift(2) > dataframe['macdsignal'].shift(2)))
+            ),
+            'mc'] = 1
 
         # dataframe = self.calc_change(dataframe, metadata['pair'])
         dataframe = self.calc(dataframe, metadata['pair'])

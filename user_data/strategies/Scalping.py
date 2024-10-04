@@ -50,121 +50,72 @@ class Scalping(IStrategy):
     use_custom_stoploss=False
     exit_profit_only = False
     ignore_roi_if_entry_signal = False
-    startup_candle_count = 100
+    startup_candle_count = 200
 
     # Plot Konfiguration
     @property
     def plot_config(self):
         return {
-            'main_plot': {
-                'tag': {'color': 'blue'}
-            },
-            'subplots': {
-                'stoch': {
-                    'slowd': {'color': 'blue'},
-                    'slowk': {'color': 'orange'}
+            "main_plot": {},
+            "subplots": {
+                "stoch": {
+                    "slowd": {
+                        "color": "#eeff00",
+                        "type": "line"
+                    },
+                    "slowk": {
+                        "color": "#ff0000",
+                        "type": "line"
+                    }
                 },
-                'rsi': {
-                    'rsi': {'color': 'blue'},
-                    'rsi_mid': {'color': 'green'}
+                "rsi": {
+                    "rsi": {
+                        "color": "#00ff04",
+                        "type": "line"
+                    },
+                    "rsi_mid": {
+                        "color": "#ffffff",
+                        "type": "line"
+                    }
                 },
-                'macd': {
-                    'macd': {'color': 'blue'},
-                    'macdsignal': {'color': 'orange'}
+                "macd": {
+                    "macd": {
+                        "color": "#00fbff",
+                        "type": "line"
+                    },
+                    "macdsignal": {
+                        "color": "#ff0000",
+                        "type": "line"
+                    }
                 },
-                'cond': {
-                    'rc': {'color': 'blue'},
-                    'mc': {'color': 'orange'},
-                    'sc': {'color': 'green'},
-                    'awin': {'color': 'white'}
+                "cond": {
+                    "awin": {
+                        "color": "white"
+                    },
+                    "tag": {
+                        "color": "#de27f8"
+                    },
+                    "change": {
+                        "color": "#14896f"
+                    },
+                    "wait": {
+                        "color": "#7fd9da"
+                    },
+                    "count": {
+                        "color": "#4fa25f"
+                    },
+                    "c": {
+                        "color": "#c84269"
+                    },
+                    "sl1": {
+                        "color": "#de342b"
+                    },
+                    "sl2": {
+                        "color": "#2bbb7d"
+                    }
                 }
             }
         }
-
-    def calc2(self, dataframe: DataFrame, pair):
-        df = dataframe.copy()
-
-        v = {'enter': 0, 'exit': 0, 'trade': 0, 'win': 0, 'awin': 0, 'tc': 0, 'ENTER': [], 'EXIT': [], 'AWIN': []}
-        for i in range(0, len(df)):
-            v['enter'], v['exit'] = 0, 0
-            if(v['trade'] == 0):
-                enter = 0
-                if(df.loc[i]['vc'] > 500) and (df.loc[i]['change'] > 10) and (df.loc[i]['change'] < 20):
-                    if(df.loc[i]['sma_50'] > df.loc[i]['sma_200']) and (df.loc[i]['sma_200'] > df.loc[i-1]['sma_200']):
-                        enter = 1
-                if(enter == 1):
-                    v['enter'], v['trade'], v['tc'], v['win'] = 1, 1, 0, 0
-            elif(v['trade'] == 1):
-                exit = 0
-                v['tc'] = (v['tc'] + 1)
-                v['win'] = (v['win'] + df.loc[i]['change'])
-                if(v['tc'] == 1):
-                    if(df.loc[i]['change'] > 5) or (df.loc[i]['change'] < -5):
-                        exit = 1
-                else:
-                    if(df.loc[i]['change'] < -1):
-                        exit = 1
-                if(exit == 1):
-                    v['exit'], v['trade'] = 1, 0
-                    v['awin'] = (v['awin'] + v['win'])
-            v['ENTER'].append(v['enter']), v['EXIT'].append(v['exit']), v['AWIN'].append(v['awin'])
-
-        df['enter'], df['exit'], df['awin'] = v['ENTER'], v['EXIT'], v['AWIN']
-        if(v['awin'] > 0):
-            print(pair, v['awin'])
-        elif(v['awin'] < 0):
-            print(pair, v['awin'])
-        return df
-
-    def calc_change(self, dataframe: DataFrame, pair):
-        df = dataframe.copy()
-
-        CC, C, C1D = [], [], []
-        cc, c, close, c1d = 0, 0, 0, 0
-        for i in range(0, len(df)):
-            if(self.timeframe == '5m'):
-                if(int(df.loc[i]['date'].strftime("%H")) == 23) and (int(df.loc[i]['date'].strftime("%M")) == 55):
-                    close = df.loc[i]['open']
-            elif(self.timeframe == '15m'):
-                if(int(df.loc[i]['date'].strftime("%H")) == 23) and (int(df.loc[i]['date'].strftime("%M")) == 45):
-                    close = df.loc[i]['open']
-            elif(self.timeframe == '30m'):
-                if(int(df.loc[i]['date'].strftime("%H")) == 23) and (int(df.loc[i]['date'].strftime("%M")) == 30):
-                    close = df.loc[i]['open']
-            elif(self.timeframe == '1h'):
-                if(int(df.loc[i]['date'].strftime("%H")) == 23):
-                    close = df.loc[i]['open']
-            if not(close == 0):
-                c1d = (100 / close * df.loc[i]['close'] - 100)
-            if(i == 0):
-                cc = df.loc[i]['change']
-                c = 1
-            else:
-                if(df.loc[i]['change'] > 0) and (cc > 0) or (df.loc[i]['change'] < 0) and (cc < 0):
-                    cc = (cc + df.loc[i]['change'])
-                    c = (c + 1)
-                else:
-                    cc = df.loc[i]['change']
-                    c = 1
-            C1D.append(c1d)
-            CC.append(cc)
-            C.append(c)
-
-        df['change_1d'] = C1D
-        df['cc'] = CC
-        df['c'] = C
-
-        return df
-
-    def calc_stoch(self, dataframe: DataFrame, pair):
-        df = dataframe.copy()
-        v = {'enter': 0, 'exit': 0, 'trade': 0, 'win': 0, 'awin': 0, 'ENTER': [], 'EXIT': [], 'AWIN': [], 'stoch': 0, 'STOCH': []}
-        for i in range(0, len(df)):
-            if(df.loc[i]['slowd'] > 80) and (df.loc[i]['slowk'] > 80): v['stoch'] = 1
-            elif(df.loc[i]['slowd'] < 20) and (df.loc[i]['slowk'] < 20): v['stoch'] = -1
-            v['STOCH'].append(v['stoch'])
-        df['sc'] = v['STOCH']
-        return df
 
     def calc(self, dataframe: DataFrame, pair):
         if(self.timeframe == '1h'):
@@ -174,40 +125,40 @@ class Scalping(IStrategy):
             if(int(df.loc[len(df)-1]['date'].strftime("%M")) != 55):
                 data = {'date': dataframe.loc[len(dataframe)-1]['date'], 'open': df.loc[len(df)-1]['close'], 'high': 0, 'low': 0, 'close': dataframe.loc[len(dataframe)-1]['close'], 'volume': 0}
                 df = df._append(data, ignore_index = True)
-            df["change"] = (100 / df['open'] * df['close'] - 100)
+        df["change"] = (100 / df['open'] * df['close'] - 100)
 
-            df['vol_ma'] = df['volume'].rolling(window=30).mean()
-            df['vc'] = 0
-            df.loc[((df['open'] < df['close']) & (df['volume'] > df['vol_ma'])), 'vc'] = 1
+        df['vol_ma'] = df['volume'].rolling(window=30).mean()
+        df['vc'] = 0
+        df.loc[((df['open'] < df['close']) & (df['volume'] > df['vol_ma'])), 'vc'] = 1
 
-            df["rsi"] = ta.RSI(df)
-            df["rsi_ma"] = ta.SMA(df['rsi'], timeperiod=14)
-            df["rsi_mid"] = 50
-            df['rc'] = 0
-            df.loc[
-                (
-                    ((df['rsi'].shift(1) < 50) & (df['rsi'] > 50)) |
-                    ((df['rsi'].shift(2) < 50) & (df['rsi'].shift(1) > 50)) |
-                    ((df['rsi'].shift(3) < 50) & (df['rsi'].shift(2) > 50))
-                ),
-                'rc'] = 1
+        df["rsi"] = ta.RSI(df)
+        df["rsi_ma"] = ta.SMA(df['rsi'], timeperiod=14)
+        df["rsi_mid"] = 50
+        df['rc'] = 0
+        df.loc[
+            (
+                ((df['rsi'].shift(1) < 50) & (df['rsi'] > 50)) |
+                ((df['rsi'].shift(2) < 50) & (df['rsi'].shift(1) > 50)) |
+                ((df['rsi'].shift(3) < 50) & (df['rsi'].shift(2) > 50))
+            ), 'rc'] = 1
 
-            stoch = ta.STOCH(df)
-            df["slowd"] = stoch["slowd"]
-            df["slowk"] = stoch["slowk"]
-            #df = self.calc_stoch(df, metadata['pair'])
+        stoch = ta.STOCH(df)
+        df["slowd"] = stoch["slowd"]
+        df["slowk"] = stoch["slowk"]
+        #df = self.calc_stoch(df, metadata['pair'])
 
-            macd = ta.MACD(df)
-            df["macd"] = macd["macd"]
-            df["macdsignal"] = macd["macdsignal"]
-            df["mc"] = 0
-            df.loc[
-                (
-                    ((df['macd'].shift(1) < df['macdsignal'].shift(1)) & (df['macd'] > df['macdsignal'])) |
-                    ((df['macd'].shift(2) < df['macdsignal'].shift(2)) & (df['macd'].shift(1) > df['macdsignal'].shift(1))) |
-                    ((df['macd'].shift(3) < df['macdsignal'].shift(3)) & (df['macd'].shift(2) > df['macdsignal'].shift(2)))
-                ),
-                'mc'] = 1
+        df["ema50"] = ta.EMA(df, timeperiod=50)
+        df["ema200"] = ta.EMA(df, timeperiod=200)
+
+        macd = ta.MACD(df)
+        df["macd"] = macd["macd"]
+        df["macdsignal"] = macd["macdsignal"]
+        df["mc"] = 0
+        df.loc[(
+                ((df['macd'].shift(1) < df['macdsignal'].shift(1)) & (df['macd'] > df['macdsignal'])) |
+                ((df['macd'].shift(2) < df['macdsignal'].shift(2)) & (df['macd'].shift(1) > df['macdsignal'].shift(1))) |
+                ((df['macd'].shift(3) < df['macdsignal'].shift(3)) & (df['macd'].shift(2) > df['macdsignal'].shift(2)))
+                ), 'mc'] = 1
         v = {'enter': 0, 'exit': 0, 'trade': 0, 'win': 0, 'awin': 0, 'TRADE': [], 'ENTER': [], 'COUNT': [], 'EXIT': [], 'WAIT': [], 'AWIN': [], 'C': [], 'stoch': 0, 'STOCH': [], 'SL1': [], 'SL2': [], 'sl1': 0, 'sl2': 0, 'count': 0, 'c': 0, 'sc': 0, 'wait': 0, 'TAGG': [], 'tagg': ''}
         if(self.timeframe != '1h'):
             if(len(df) == 999): z = 1
@@ -219,16 +170,18 @@ class Scalping(IStrategy):
             elif(df.loc[i]['slowd'] < 20) and (df.loc[i]['slowk'] < 20): v['stoch'] = -1
             if(v['trade'] == 0):
                 if(df.loc[i]['rc'] == 1) and (df.loc[i]['mc'] == 1) and (v['stoch'] == -1) and (df.loc[i]['close'] > df.loc[i]['open']):
-                    op = df.loc[i]['open']
-                    op2 = df.loc[i]['open']
-                    for x in range(1, i):
-                        if(df.loc[i-x]['open'] < df.loc[i-x]['close']): op2 = df.loc[i-x]['open']
-                        else: break
-                    v['sl1'] = (df.loc[i]['close'] - op)
-                    v['sl2'] = (df.loc[i]['close'] - op2)
-                    v['c'] = df.loc[i]['close']
+                    if(i > 0):
+                        if(df.loc[i]['close'] > df.loc[i]['ema200']) and (df.loc[i]['ema50'] > df.loc[i]['ema200']) and (df.loc[i]['ema200'] > df.loc[i-1]['ema200']):
+                            op = df.loc[i]['open']
+                            op2 = df.loc[i]['open']
+                            for x in range(1, i):
+                                if(df.loc[i-x]['open'] < df.loc[i-x]['close']): op2 = df.loc[i-x]['open']
+                                else: break
+                            v['sl1'] = (df.loc[i]['close'] - op)
+                            v['sl2'] = (df.loc[i]['close'] - op2)
+                            v['c'] = df.loc[i]['close']
 
-                    v['enter'], v['trade'], v['count'], v['win'], v['tagg'] = 1, 1, 0, 0, ''
+                            v['enter'], v['trade'], v['count'], v['win'], v['tagg'] = 1, 1, 0, 0, ''
             elif(v['trade'] == 1):
                 exit = 0
                 v['count'] = (v['count'] + 1)
@@ -238,7 +191,10 @@ class Scalping(IStrategy):
                         v['tagg'] = 'exit: wait=1'
                 elif(df.loc[i]['close'] > v['c'] + v['sl2'] * 1.5) or (df.loc[i]['close'] < v['c'] - v['sl2']):
                     exit = 1
-                    v['tagg'] = 'exit: close>sl2'
+                    if(df.loc[i]['close'] > v['c'] + v['sl2'] * 1.5):
+                        v['tagg'] = 'exit: close>sl2'
+                    elif(df.loc[i]['close'] < v['c'] - v['sl2']):
+                        v['tagg'] = 'exit: close<sl2'
                     if(v['win'] < 0) and (v['stoch'] == -1):
                         v['stoch'] = 0
                         v['tagg'] = 'exit: close<sl2'
@@ -321,41 +277,6 @@ class Scalping(IStrategy):
         if(self.timeframe == '1h'):
             dataframe["enter_1h"] = 0
             dataframe["exit_1h"] = 0
-
-            dataframe["change"] = (100 / dataframe['open'] * dataframe['close'] - 100)
-
-            dataframe['vol_ma'] = dataframe['volume'].rolling(window=30).mean()
-            dataframe['vc'] = 0
-            dataframe.loc[((dataframe['open'] < dataframe['close']) & (dataframe['volume'] > dataframe['vol_ma'])), 'vc'] = 1
-
-            dataframe["rsi"] = ta.RSI(dataframe)
-            dataframe["rsi_ma"] = ta.SMA(dataframe['rsi'], timeperiod=14)
-            dataframe["rsi_mid"] = 50
-            dataframe['rc'] = 0
-            dataframe.loc[
-                (
-                    ((dataframe['rsi'].shift(1) < 50) & (dataframe['rsi'] > 50)) |
-                    ((dataframe['rsi'].shift(2) < 50) & (dataframe['rsi'].shift(1) > 50)) |
-                    ((dataframe['rsi'].shift(3) < 50) & (dataframe['rsi'].shift(2) > 50))
-                ),
-                'rc'] = 1
-
-            stoch = ta.STOCH(dataframe)
-            dataframe["slowd"] = stoch["slowd"]
-            dataframe["slowk"] = stoch["slowk"]
-            #dataframe = self.calc_stoch(dataframe, metadata['pair'])
-
-            macd = ta.MACD(dataframe)
-            dataframe["macd"] = macd["macd"]
-            dataframe["macdsignal"] = macd["macdsignal"]
-            dataframe["mc"] = 0
-            dataframe.loc[
-                (
-                    ((dataframe['macd'].shift(1) < dataframe['macdsignal'].shift(1)) & (dataframe['macd'] > dataframe['macdsignal'])) |
-                    ((dataframe['macd'].shift(2) < dataframe['macdsignal'].shift(2)) & (dataframe['macd'].shift(1) > dataframe['macdsignal'].shift(1))) |
-                    ((dataframe['macd'].shift(3) < dataframe['macdsignal'].shift(3)) & (dataframe['macd'].shift(2) > dataframe['macdsignal'].shift(2)))
-                ),
-                'mc'] = 1
 
         dataframe = self.calc(dataframe, metadata['pair'])
 

@@ -1,0 +1,71 @@
+                                               EXIT REASON STATS
+┏━━━━━━━━━━━━━┳━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ Exit Reason ┃ Exits ┃ Avg Profit % ┃ Tot Profit USDT ┃ Tot Profit % ┃ Avg Duration ┃  Win  Draw  Loss  Win% ┃
+┡━━━━━━━━━━━━━╇━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━┩
+│ exit_signal │    34 │          4.0 │         242.099 │        242.1 │      6:35:00 │   29     0     5  85.3 │
+│   stop_loss │     4 │        -5.17 │         -46.265 │       -46.27 │      0:30:00 │    0     0     4     0 │
+│       TOTAL │    38 │         3.03 │         195.834 │       195.83 │      5:57:00 │   29     0     9  76.3 │
+└─────────────┴───────┴──────────────┴─────────────────┴──────────────┴──────────────┴────────────────────────┘
+                                                      MIXED TAG STATS
+┏━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ Enter Tag ┃ Exit Reason ┃ Trades ┃ Avg Profit % ┃ Tot Profit USDT ┃ Tot Profit % ┃ Avg Duration ┃  Win  Draw  Loss  Win% ┃
+┡━━━━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━┩
+│           │ exit_signal │     34 │          4.0 │         242.099 │        242.1 │      6:35:00 │   29     0     5  85.3 │
+│           │   stop_loss │      4 │        -5.17 │         -46.265 │       -46.27 │      0:30:00 │    0     0     4     0 │
+│     TOTAL │             │     38 │         3.03 │         195.834 │       195.83 │      5:57:00 │   29     0     9  76.3 │
+└───────────┴─────────────┴────────┴──────────────┴─────────────────┴──────────────┴──────────────┴────────────────────────┘
+                   SUMMARY METRICS
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━┓
+┃ Metric                      ┃ Value               ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━┩
+│ Backtesting from            │ 2024-01-01 00:00:00 │
+│ Backtesting to              │ 2024-02-01 00:00:00 │
+│ Max open trades             │ 1                   │
+│                             │                     │
+│ Total/Daily Avg Trades      │ 38 / 1.23           │
+│ Starting balance            │ 100 USDT            │
+│ Final balance               │ 295.834 USDT        │
+│ Absolute profit             │ 195.834 USDT        │
+│ Total profit %              │ 195.83%             │
+│ CAGR %                      │ 35172490.98%        │
+│ Sortino                     │ 28.21               │
+│ Sharpe                      │ 13.18               │
+│ Calmar                      │ 962.26              │
+│ Profit factor               │ 3.77                │
+│ Expectancy (Ratio)          │ 5.15 (0.66)         │
+│ Avg. daily profit %         │ 6.32%               │
+│ Avg. stake amount           │ 187.858 USDT        │
+│ Total trade volume          │ 7138.623 USDT       │
+│                             │                     │
+│ Best Pair                   │ T/USDT 28.66%       │
+│ Worst Pair                  │ AUCTION/USDT 2.95%  │
+│ Best trade                  │ RAD/USDT 12.47%     │
+│ Worst trade                 │ SSV/USDT -5.18%     │
+│ Best day                    │ 31.698 USDT         │
+│ Worst day                   │ -17.875 USDT        │
+│ Days win/draw/lose          │ 17 / 9 / 4          │
+│ Avg. Duration Winners       │ 7:00:00             │
+│ Avg. Duration Loser         │ 2:33:00             │
+│ Max Consecutive Wins / Loss │ 10 / 2              │
+│ Rejected Entry signals      │ 18                  │
+│ Entry/Exit Timeouts         │ 0 / 0               │
+│                             │                     │
+│ Min balance                 │ 98.717 USDT         │
+│ Max balance                 │ 295.834 USDT        │
+│ Max % of account underwater │ 12.54%              │
+│ Absolute Drawdown (Account) │ 12.54%              │
+│ Absolute Drawdown           │ 34.627 USDT         │
+│ Drawdown high               │ 176.083 USDT        │
+│ Drawdown low                │ 141.456 USDT        │
+│ Drawdown Start              │ 2024-01-23 02:00:00 │
+│ Drawdown End                │ 2024-01-28 12:00:00 │
+│ Market change               │ 24.27%              │
+└─────────────────────────────┴─────────────────────┘
+
+Backtested 2024-01-01 00:00:00 -> 2024-02-01 00:00:00 | Max open trades : 1
+                                                         STRATEGY SUMMARY
+┏━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━┓
+┃ Strategy ┃ Trades ┃ Avg Profit % ┃ Tot Profit USDT ┃ Tot Profit % ┃ Avg Duration ┃  Win  Draw  Loss  Win% ┃            Drawdown ┃
+┡━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━┩
+│ Scalping │     38 │         3.03 │         195.834 │       195.83 │      5:57:00 │   29     0     9  76.3 │ 34.627 USDT  12.54% │
+└──────────┴────────┴──────────────┴─────────────────┴──────────────┴──────────────┴────────────────────────┴─────────────────────┘

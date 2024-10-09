@@ -56,69 +56,39 @@ class ScalpingB(IStrategy):
     @property
     def plot_config(self):
         return {
-            "main_plot": {},
+            "main_plot": {
+                "ema50": { "color": "#9dfd0f" },
+                "ema200": { "color": "#543ad1" }
+            },
             "subplots": {
                 "stoch": {
-                    "slowd": {
-                        "color": "#eeff00",
-                    },
-                    "slowk": {
-                        "color": "#ff0000",
-                    }
+                    "slowd": { "color": "#eeff00" },
+                    "slowk": { "color": "#ff0000" }
                 },
                 "rsi": {
-                    "rsi": {
-                        "color": "#00ff04",
-                    },
-                    "rsi_mid": {
-                        "color": "#ffffff",
-                    }
+                    "rsi": { "color": "#00ff04" },
+                    "rsi_mid": { "color": "#ffffff" }
                 },
                 "macd": {
-                    "macd": {
-                        "color": "#00fbff",
-                    },
-                    "macdsignal": {
-                        "color": "#ff0000",
-                    }
+                    "macd": { "color": "#00fbff" },
+                    "macdsignal": { "color": "#ff0000" }
                 },
                 "cond": {
-                    "awin": {
-                        "color": "white"
-                    },
-                    "tag": {
-                        "color": "#de27f8"
-                    },
-                    "change": {
-                        "color": "#14896f"
-                    },
-                    "wait": {
-                        "color": "#7fd9da"
-                    },
-                    "count": {
-                        "color": "#4fa25f"
-                    },
-                    "c": {
-                        "color": "#c84269"
-                    },
-                    "sl1": {
-                        "color": "#de342b"
-                    },
-                    "sl2": {
-                        "color": "#2bbb7d"
-                    }
+                    "awin": { "color": "white" },
+                    "tag": { "color": "#de27f8" },
+                    "change": { "color": "#14896f" },
+                    "wait": { "color": "#7fd9da" },
+                    "count": { "color": "#4fa25f" },
+                    "c": { "color": "#c84269" },
+                    "sl1": { "color": "#de342b" },
+                    "sl2": { "color": "#2bbb7d" }
                 }
             }
         }
 
     def calc(self, dataframe: DataFrame, pair):
-        if(self.timeframe == '1h'):
-            df = dataframe.copy()
-        # else:
-        #     df = self.dp.get_pair_dataframe(pair=pair, timeframe='1h')
-        #     if(int(df.loc[len(df)-1]['date'].strftime("%M")) != 55):
-        #         data = {'date': dataframe.loc[len(dataframe)-1]['date'], 'open': df.loc[len(df)-1]['close'], 'high': 0, 'low': 0, 'close': dataframe.loc[len(dataframe)-1]['close'], 'volume': 0}
-        #         df = df._append(data, ignore_index = True)
+        df = dataframe.copy()
+
         df["change"] = (100 / df['open'] * df['close'] - 100)
 
         df['vol_ma'] = df['volume'].rolling(window=30).mean()
@@ -153,12 +123,12 @@ class ScalpingB(IStrategy):
                 ((df['macd'].shift(2) < df['macdsignal'].shift(2)) & (df['macd'].shift(1) > df['macdsignal'].shift(1))) |
                 ((df['macd'].shift(3) < df['macdsignal'].shift(3)) & (df['macd'].shift(2) > df['macdsignal'].shift(2)))
                 ), 'mc'] = 1
-        v = {'enter': 0, 'exit': 0, 'trade': 0, 'win': 0, 'awin': 0, 'TRADE': [], 'ENTER': [], 'COUNT': [], 'EXIT': [], 'WAIT': [], 'AWIN': [], 'C': [], 'stoch': 0, 'STOCH': [], 'SL1': [], 'SL2': [], 'sl1': 0, 'sl2': 0, 'count': 0, 'c': 0, 'sc': 0, 'wait': 0, 'TAGG': [], 'tagg': ''}
+        v = {'enter': 0, 'exit': 0, 'trade': 0, 'win': 0, 'awin': 0, 'aw': 0, 'al': 0, 'wc': 0, 'lc': 0, 'AW': [], 'AL': [], 'WC': [], 'LC': [], 'TRADE': [], 'ENTER': [], 'COUNT': [], 'EXIT': [], 'WAIT': [], 'AWIN': [], 'C': [], 'stoch': 0, 'STOCH': [], 'SL1': [], 'SL2': [], 'sl1': 0, 'sl2': 0, 'count': 0, 'c': 0, 'sc': 0, 'wait': 0, 'TAGG': [], 'tagg': ''}
         if(self.timeframe != '1h'):
             if(len(df) == 999): z = 1
             else: z = 0
         else: z = 0
-        po = 0
+        po, sa = 0, 0
         for i in range(z, len(df)):
             v['enter'], v['exit'] = 0, 0
             if(df.loc[i]['slowd'] > 80) and (df.loc[i]['slowk'] > 80): v['stoch'] = 1
@@ -226,25 +196,51 @@ class ScalpingB(IStrategy):
                         v['tagg'] = 'exit: win>0'
                 if(exit == 1):
                     v['win'] = (100 / v['c'] * df.loc[i]['close'] - 100)
+                    if(v['win'] > 0):
+                        v['aw'] = (v['aw'] + v['win'])
+                        v['wc'] = (v['wc'] + 1)
+                    elif(v['win'] < 0):
+                        v['al'] = (v['al'] + v['win'])
+                        v['lc'] = (v['lc'] + 1)
                     v['awin'] = (v['awin'] + v['win'] - 0.2)
                     count = v['count']
                     v['exit'], v['trade'], v['sl1'], v['sl2'], v['c'], v['wait'], v['count'] = 1, 0, 0, 0, 0, 0, 0
                     if(po == 1):
                         print(pair, start, df.loc[i]['date'].strftime("%H-%d-%m"), v['win'], v['tagg'], count)
-            v['TRADE'].append(v['trade']), v['COUNT'].append(v['count']), v['WAIT'].append(v['wait']), v['C'].append(v['c']), v['SL1'].append(v['sl1']), v['SL2'].append(v['sl2']), v['ENTER'].append(v['enter']), v['EXIT'].append(v['exit']), v['AWIN'].append(v['awin']), v['STOCH'].append(v['stoch']), v['TAGG'].append(v['tagg'])
-        df['trade'], df['count'], df['wait'], df['enter'], df['exit'], df['awin'], df['sc'], df['tag'], df['sl1'], df['sl2'], df['c'] = v['TRADE'], v['COUNT'], v['WAIT'], v['ENTER'], v['EXIT'], v['AWIN'], v['STOCH'], v['TAGG'], v['SL1'], v['SL2'], v['C']
-        if(self.timeframe != '1h'):
-            dataframe = merge_informative_pair(dataframe, df, self.timeframe, '1h', ffill=True)
+            v['AW'].append(v['aw']), v['AL'].append(v['al']), v['WC'].append(v['wc']), v['LC'].append(v['lc']), v['TRADE'].append(v['trade']), v['COUNT'].append(v['count']), v['WAIT'].append(v['wait']), v['C'].append(v['c']), v['SL1'].append(v['sl1']), v['SL2'].append(v['sl2']), v['ENTER'].append(v['enter']), v['EXIT'].append(v['exit']), v['AWIN'].append(v['awin']), v['STOCH'].append(v['stoch']), v['TAGG'].append(v['tagg'])
+        df['aw'], df['al'], df['wc'], df['lc'], df['trade'], df['count'], df['wait'], df['enter'], df['exit'], df['awin'], df['sc'], df['tag'], df['sl1'], df['sl2'], df['c'] = v['AW'], v['AL'], v['WC'], v['LC'], v['TRADE'], v['COUNT'], v['WAIT'], v['ENTER'], v['EXIT'], v['AWIN'], v['STOCH'], v['TAGG'], v['SL1'], v['SL2'], v['C']
 
-        if(v['awin'] > 9):
+        if(int(len(df)/100) > 9):
+            aw = 9
+        else:
+            aw = int(len(df)/100)
+
+        if(v['awin'] > aw):
+            if(sa == 1):
+                import os, json, sys
+                rp = os.path.normpath(os.path.dirname(os.path.abspath(__file__))+'/../tmp/')
+                file = os.path.join(rp, 'bt')
+                if os.path.exists(file+".json"):
+                    with open(file+".json") as k:
+                        r = json.load(k)
+                    value = r.get('value')
+                    os.remove(file+".json")
+                else:
+                    value = {}
+                m = int(df.loc[len(df)-1]['date'].strftime("%m"))
+                dat = str(df.loc[len(df)-1]['date'].strftime("%Y")) + '-' + str(m-1) + '-' + str(m)
+                if dat not in value:
+                    value[dat] = []
+                if pair not in value[dat]:
+                    value[dat].append(pair)
+                data = {"value": value}
+                with open(file+".json", "w") as k:
+                    json.dump(data, k, indent=4)
             if(po == 1):
                 print(pair, v['awin'])
             else:
                 print(pair)
-        if(self.timeframe != '1h'):
-            return dataframe
-        else:
-            return df
+        return df
 
     # def informative_pairs(self):
     #     pairs = self.dp.current_whitelist()

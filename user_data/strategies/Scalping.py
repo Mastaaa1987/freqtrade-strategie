@@ -56,63 +56,32 @@ class Scalping(IStrategy):
     @property
     def plot_config(self):
         return {
-            "main_plot": {},
+            "main_plot": {
+                "ema50": { "color": "#9dfd0f" },
+                "ema200": { "color": "#543ad1" }
+            },
             "subplots": {
                 "stoch": {
-                    "slowd": {
-                        "color": "#eeff00",
-                        "type": "line"
-                    },
-                    "slowk": {
-                        "color": "#ff0000",
-                        "type": "line"
-                    }
+                    "slowd": { "color": "#eeff00" },
+                    "slowk": { "color": "#ff0000" }
                 },
                 "rsi": {
-                    "rsi": {
-                        "color": "#00ff04",
-                        "type": "line"
-                    },
-                    "rsi_mid": {
-                        "color": "#ffffff",
-                        "type": "line"
-                    }
+                    "rsi": { "color": "#00ff04" },
+                    "rsi_mid": { "color": "#ffffff" }
                 },
                 "macd": {
-                    "macd": {
-                        "color": "#00fbff",
-                        "type": "line"
-                    },
-                    "macdsignal": {
-                        "color": "#ff0000",
-                        "type": "line"
-                    }
+                    "macd": { "color": "#00fbff" },
+                    "macdsignal": { "color": "#ff0000" }
                 },
                 "cond": {
-                    "awin": {
-                        "color": "white"
-                    },
-                    "tag": {
-                        "color": "#de27f8"
-                    },
-                    "change": {
-                        "color": "#14896f"
-                    },
-                    "wait": {
-                        "color": "#7fd9da"
-                    },
-                    "count": {
-                        "color": "#4fa25f"
-                    },
-                    "c": {
-                        "color": "#c84269"
-                    },
-                    "sl1": {
-                        "color": "#de342b"
-                    },
-                    "sl2": {
-                        "color": "#2bbb7d"
-                    }
+                    "awin": { "color": "white" },
+                    "tag": { "color": "#de27f8" },
+                    "change": { "color": "#14896f" },
+                    "wait": { "color": "#7fd9da" },
+                    "count": { "color": "#4fa25f" },
+                    "c": { "color": "#c84269" },
+                    "sl1": { "color": "#de342b" },
+                    "sl2": { "color": "#2bbb7d" }
                 }
             }
         }
@@ -159,7 +128,7 @@ class Scalping(IStrategy):
                 ((df['macd'].shift(2) < df['macdsignal'].shift(2)) & (df['macd'].shift(1) > df['macdsignal'].shift(1))) |
                 ((df['macd'].shift(3) < df['macdsignal'].shift(3)) & (df['macd'].shift(2) > df['macdsignal'].shift(2)))
                 ), 'mc'] = 1
-        v = {'enter': 0, 'exit': 0, 'trade': 0, 'win': 0, 'awin': 0, 'TRADE': [], 'ENTER': [], 'COUNT': [], 'EXIT': [], 'WAIT': [], 'AWIN': [], 'C': [], 'stoch': 0, 'STOCH': [], 'SL1': [], 'SL2': [], 'sl1': 0, 'sl2': 0, 'count': 0, 'c': 0, 'sc': 0, 'wait': 0, 'TAGG': [], 'tagg': ''}
+        v = {'enter': 0, 'exit': 0, 'trade': 0, 'win': 0, 'awin': 0, 'aw': 0, 'al': 0, 'wc': 0, 'lc': 0, 'AW': [], 'AL': [], 'WC': [], 'LC': [], 'TRADE': [], 'ENTER': [], 'COUNT': [], 'EXIT': [], 'WAIT': [], 'AWIN': [], 'C': [], 'stoch': 0, 'STOCH': [], 'SL1': [], 'SL2': [], 'sl1': 0, 'sl2': 0, 'count': 0, 'c': 0, 'sc': 0, 'wait': 0, 'TAGG': [], 'tagg': ''}
         if(self.timeframe != '1h'):
             if(len(df) == 999): z = 1
             else: z = 0
@@ -229,15 +198,21 @@ class Scalping(IStrategy):
                         v['tagg'] = 'exit: win>0'
                 if(exit == 1):
                     v['win'] = (100 / v['c'] * df.loc[i]['close'] - 100)
+                    if(v['win'] > 0):
+                        v['aw'] = (v['aw'] + v['win'])
+                        v['wc'] = (v['wc'] + 1)
+                    elif(v['win'] < 0):
+                        v['al'] = (v['al'] + v['win'])
+                        v['lc'] = (v['lc'] + 1)
                     v['awin'] = (v['awin'] + v['win'] - 0.2)
                     v['exit'], v['trade'], v['sl1'], v['sl2'], v['c'], v['wait'], v['count'] = 1, 0, 0, 0, 0, 0, 0
-            v['TRADE'].append(v['trade']), v['COUNT'].append(v['count']), v['WAIT'].append(v['wait']), v['C'].append(v['c']), v['SL1'].append(v['sl1']), v['SL2'].append(v['sl2']), v['ENTER'].append(v['enter']), v['EXIT'].append(v['exit']), v['AWIN'].append(v['awin']), v['STOCH'].append(v['stoch']), v['TAGG'].append(v['tagg'])
-        df['trade'], df['count'], df['wait'], df['enter'], df['exit'], df['awin'], df['sc'], df['tag'], df['sl1'], df['sl2'], df['c'] = v['TRADE'], v['COUNT'], v['WAIT'], v['ENTER'], v['EXIT'], v['AWIN'], v['STOCH'], v['TAGG'], v['SL1'], v['SL2'], v['C']
+            v['AW'].append(v['aw']), v['AL'].append(v['al']), v['WC'].append(v['wc']), v['LC'].append(v['lc']), v['TRADE'].append(v['trade']), v['COUNT'].append(v['count']), v['WAIT'].append(v['wait']), v['C'].append(v['c']), v['SL1'].append(v['sl1']), v['SL2'].append(v['sl2']), v['ENTER'].append(v['enter']), v['EXIT'].append(v['exit']), v['AWIN'].append(v['awin']), v['STOCH'].append(v['stoch']), v['TAGG'].append(v['tagg'])
+        df['aw'], df['al'], df['wc'], df['lc'], df['trade'], df['count'], df['wait'], df['enter'], df['exit'], df['awin'], df['sc'], df['tag'], df['sl1'], df['sl2'], df['c'] = v['AW'], v['AL'], v['WC'], v['LC'], v['TRADE'], v['COUNT'], v['WAIT'], v['ENTER'], v['EXIT'], v['AWIN'], v['STOCH'], v['TAGG'], v['SL1'], v['SL2'], v['C']
         if(self.timeframe != '1h'):
             dataframe = merge_informative_pair(dataframe, df, self.timeframe, '1h', ffill=True)
 
         # if(v['awin'] > 20):
-        print(pair, v['awin'])
+        print(v['awin'], v['wc'], v['aw'], v['lc'], v['al'], pair)
         if(self.timeframe != '1h'):
             return dataframe
         else:

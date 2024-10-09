@@ -62,10 +62,49 @@ So jetzt kommen wir zum Tückischen Teil des Trades.
 
 ### Der Ablauf ist wie folgt:
 - if trade:
-   - if wait und close < open: exit
-   - elif profit > stoploss2 * 1.5 oder profit < stoploss2: exit
-   - elif count > 2 & < 7 und profit > stoploss1 * 1.5: exit
-   - elif count > 2 & < 7 und close > trade.entry und win > 1%:
+   - if wait & close < open: exit
+   - elif profit > stoploss2 * 1.5 or profit < stoploss2: exit
+   - elif count > 2 & < 7 & profit > stoploss1 * 1.5: exit
+   - elif count > 2 & < 7 & close > trade.entry & win > 1%:
        - if all candles close > open: wait 1
        - else: exit
-   - elif count >= 7 und win > 0: exit
+   - elif count >= 7 & win > 0: exit
+
+## Meine Erfahrungswerte:
+
+Ich habe die Erfahrung gemacht, das es sehr viel profitabler ist die 2-3 Prozent in einem Trade mit zu nehmen und dem entsprechend aus zu steigen, als noch länger zu warten!
+
+Natürlich gehen einem das eine oder andere mal höhere preissprünge dabei vor der Nase verlohren weil die Strategie zu früh aussteigt.
+
+Aber Schlussendlich ist es so das am häufigsten der Fall eintritt: Win Candle +0,5% -> Win Candle +1% -> Loose Candle -2% -> Loose -0,5% ... -> Bis insgesamt Loose -5% und somit der Stoploss (ganz oben in der Strategie angegeben mit: -0.05) eintritt. 
+
+Über einen längeren zeitraum betrachtet ist jeder Trade der Profit abwirft (egal wie klein er auch sein mag...) weitaus besser als Trade der Verlust mit sich bringt. 
+
+Klein Fieh macht auch riesen Mist, wie man unschwer an den Backtest Profiten 01.02.2023 - 01.12.2023 & 01.01.2024 - 08.10.2024 erkennen kann.
+
+Die Sagenhafte 2663% und 2328% Profite erziehlen. Was in USDT bedeutet: Angefangen mit 100 USDT, Beendet mit 2763 USDT & 2428 USDT !
+
+## Background Infos:
+
+Mach einer Mag sich fragen ob solche Profite die die Backtests erziehlen überhaupt realistisch sind? Und wenn ja wie diese zu stande kommen?
+
+Nehmen wir an die Trades werfen ca. 3% Profit ab. Und wir gewinnen jeden Trade. Wir gewinnen jeden Tag 1 Trade, daraus würde sich ein Profit von (ca.) 100% ergeben. Ergo (angefangen mit 100): 200.
+
+Testet der Bot nun weiter weil der Zeitraum noch nicht zu ende ist, ergibt sich folglich das die selben 3% jetzt Trades mit 6% ergeben weil die eingesetzte USDT Menge ja Doppelt so hoch ist wie am anfang.
+
+Nun bedeutet das folglich das nur noch die hälfte an win Trades nötig sind um wieder diese 100% (100 USDT) zu erreichen. Rechnet man nun einfach weiter kommt irgentwann immer der Punkt wo die Profite astronomische
+
+Ausmaße annehmen weil wenn wir das 10 fache von 100 USDT investieren und wieder unsere 3% ereichen, der Trade 30% ergibt wenn wir von unseren 100 USDT als maßstab aus sehen ... 3% von 1000 USDT = 30 USDT,
+
+was wiederum 30% von 100 USDT sind. Eigentlich doch richtig einleuchtend oder? Ihr müsst also ganz einfach im Hinterkopf behalten das freqtrade bei den bilanzen einen Backtests von dem Startkapital 
+
+(sprich 100 USDT) die Prozente ableitet ... Um das nochmal zu veranschaulichen: Angefangen mit 100 USDT, sind wir bei 1000 USDT und verliehren einen trade mit -1.5% was wiederum bei 1000 USDT = 15 USDT sind.
+
+Also wird der trade mit -15% angezeigt, was wiederum richtig ist weil -15 USDT von anfangs 100 USDT halt -15% sind. Wenn ihr sehen wollt bei wieviel Prozent der Trade wirklich abschließt,
+
+müsst ihr den "Avg Profit %" betrachten. Dort wird euch angezeigt wieviel Profit ihr bei diesem Pair erwarten könnt (In diesem Zenario immernoch 3%) ;-)
+
+So das wars auch erstmal von mir ...
+
+Immer schön Cremig bleiben :D
+

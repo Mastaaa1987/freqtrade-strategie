@@ -86,9 +86,9 @@ Die Sagenhafte 2663% und 2328% Profite erziehlen. Was in USDT bedeutet: Angefang
 
 ## Background Infos:
 
-Mach einer Mag sich fragen ob solche Profite die die Backtests erziehlen überhaupt realistisch sind? Und wenn ja wie diese zu stande kommen?
+Manch einer Mag sich fragen ob solche Profite die die Backtests erziehlen überhaupt realistisch sind? Und wenn ja wie diese zu stande kommen?
 
-Nehmen wir an die Trades werfen ca. 3% Profit ab. Und wir gewinnen jeden Trade. Wir gewinnen jeden Tag 1 Trade, daraus würde sich ein Profit von (ca.) 100% ergeben. Ergo (angefangen mit 100): 200.
+Nehmen wir an die Trades werfen ca. 3% Profit ab. Und wir gewinnen jeden Trade. Wir gewinnen jeden Tag 1 Trade, daraus würde sich ein Profit von (ca.) 100% in 30 Tagen ergeben. Ergo (angefangen mit 100): 200.
 
 Testet der Bot nun weiter weil der Zeitraum noch nicht zu ende ist, ergibt sich folglich das die selben 3% jetzt Trades mit 6% ergeben weil die eingesetzte USDT Menge ja Doppelt so hoch ist wie am anfang.
 

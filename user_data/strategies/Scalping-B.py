@@ -162,9 +162,6 @@ class ScalpingB(IStrategy):
                         v['tagg'] = 'exit: close>sl2'
                     elif(df.loc[i]['close'] < v['c'] - v['sl2']):
                         v['tagg'] = 'exit: close<sl2'
-                    if(v['win'] < 0) and (v['stoch'] == -1):
-                        v['stoch'] = 0
-                        v['tagg'] = 'exit: close<sl2'
                 elif(v['count'] > 2) and (v['count'] < 7):
                     if(df.loc[i]['close'] > v['c'] + v['sl1'] * 1.5):
                         if(v['wait'] == 0):
@@ -194,6 +191,12 @@ class ScalpingB(IStrategy):
                     if(win > 0):
                         exit = 1
                         v['tagg'] = 'exit: win>0'
+                if(exit == 0):
+                    cw = (100 / v['c'] * df.loc[i]['close'] - 100)
+                    ow = (100 / v['c'] * df.loc[i]['open'] - 100)
+                    if(ow < -5) and (cw < -5):
+                        exit = 1
+                        v['tagg'] = 'exit: open+close<-5'
                 if(exit == 1):
                     v['win'] = (100 / v['c'] * df.loc[i]['close'] - 100)
                     if(v['win'] > 0):
@@ -202,9 +205,23 @@ class ScalpingB(IStrategy):
                     elif(v['win'] < 0):
                         v['al'] = (v['al'] + v['win'])
                         v['lc'] = (v['lc'] + 1)
-                    v['awin'] = (v['awin'] + v['win'] - 0.2)
+                    v['awin'] = (v['awin'] + v['win'])
                     count = v['count']
                     v['exit'], v['trade'], v['sl1'], v['sl2'], v['c'], v['wait'], v['count'] = 1, 0, 0, 0, 0, 0, 0
+                    if(sc == 1):
+                        if(df.loc[i]['date'].strftime("%m-%y") != ad):
+                            aw, al, awin, wc, lc, ac = 0, 0, 0, 0, 0, 0
+                            ad = df.loc[i]['date'].strftime("%m-%y")
+                        if(v['win'] > 0):
+                            aw = (aw + v['win'])
+                            wc = (wc + 1)
+                        elif(v['win'] < 0):
+                            al = (al + v['win'])
+                            lc = (lc + 1)
+                        awin = (awin + v['win'])
+                        ac = (ac + 1)
+                        a[ad] = [awin, aw, al, ac, wc, lc]
+
                     if(po == 1):
                         print(pair, start, df.loc[i]['date'].strftime("%H-%d-%m"), v['win'], v['tagg'], count)
             v['AW'].append(v['aw']), v['AL'].append(v['al']), v['WC'].append(v['wc']), v['LC'].append(v['lc']), v['TRADE'].append(v['trade']), v['COUNT'].append(v['count']), v['WAIT'].append(v['wait']), v['C'].append(v['c']), v['SL1'].append(v['sl1']), v['SL2'].append(v['sl2']), v['ENTER'].append(v['enter']), v['EXIT'].append(v['exit']), v['AWIN'].append(v['awin']), v['STOCH'].append(v['stoch']), v['TAGG'].append(v['tagg'])

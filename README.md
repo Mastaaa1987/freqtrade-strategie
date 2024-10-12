@@ -1,4 +1,6 @@
-# Allgemein Information ::
+For the English translation, you have to scroll down ...
+
+## Allgemein Information ::
 
 Die Strategie die ich hier verfolge liegt ihren Uhrsprung in der "Triple Threat Trading Strategy" welche eigentlich im 5 min Frame genutzt wird.
 
@@ -108,3 +110,118 @@ So das wars auch erstmal von mir ...
 
 Immer schön Cremig bleiben :D
 
+
+# English Readme ...
+
+## General Information ::
+
+The strategy I am following here has its origins in the "Triple Threat Trading Strategy" which is actually used in the 5 minute frame.
+
+To improve the signal strength, my strategy uses the indicators in the 1 hour candle.
+
+The indicators used for entry are RSI, Stochastic & MACD, all with the default settings:
+
+- RSI:: Length: 14
+
+- Stochastik:: %K-Period: 14, %K-Smoothing: 3, %D-Smoothing: 3
+
+- MACD:: Fast-Length: 12, Slow-Length: 26, Signal-Length: 9
+
+## Entry into the trade:
+
+![Indikatoren1](https://raw.githubusercontent.com/Mastaaa1987/freqtrade-strategie/refs/heads/main/res/freqtrade_indikatoren.jpg)
+
+- 1: The stochastic %K,%D are below the oversold line (20)
+- 2: The RSI crosses the 50 line from bottom to top.
+- 3: The MACD crosses the signal line from bottom to top.
+- 4: The stochastic %K,%D is still in the area above 20 and below 80.
+- 5: If all conditions are met, a new trade begins here.
+
+- The strategy sets the first stop loss based on the length of the candle.
+- The second stop loss is at the swing low of the last candle. (All green candles together, up to the first red one ...)
+- The take profit is set at the second stop loss * 1.5 (which corresponds to a ratio of 1 to 1.5 ...)
+
+## Three factors must be met before a trade can actually begin.
+
+![Indikatoren2](https://raw.githubusercontent.com/Mastaaa1987/freqtrade-strategie/refs/heads/main/res/freqtrade_indikatoren2.jpg)
+
+- 1: The EMA 50 is above the EMA 200 line.
+- 2: The EMA 200 line is moving up.
+- 3: The candle closes above the EMA 200.
+
+## Strategy information that is issued.
+
+Since my strategy analyzes every candle of every pair, there are a lot of factors that can be displayed in the UI when plotting all the respective pairs.
+
+I have integrated many of them into the strategy by default. You can easily load these using the [Settings] button at the top right and then [from strategy]...
+
+Here is an overview of all the information and what it means:
+
+- awin (all wins) :: The sum in percent of all trades in the pair.
+
+- aw, wc (all win, win count) :: The sum in percent of all won trades, and the number.
+
+- al, lc (all loose, loose count) :: The totals in percent of all lost trades, and the number.
+
+- tag :: Reason for exiting the last trade.
+
+- c (close) :: Entry price of the last trade.
+
+- sc, rc, mc (stoch condition, rsi condition, macd condition) :: Indicator conditions for entering the trade.
+- (sc -1: stochastic oversold, 1: stochastic overbought; rc 1: rsi cross 50 line; mc 1: macd cross signal line ...
+- This means sc, rc, mc is equal to -1, 1, 1 = buy order.)
+- count :: number of past candles in the trade.
+- sl1 (stoploss1) :: calculated stoploss price. (Candle: close - open)
+- sl2 (stoploss2) :: calculated stoploss price 2. (Swing Low: All green candles considered: 1st candle close - last candle open)
+- wait :: Wait command for the strategy when take profit has been reached but all candles have been green since the start of the trade, until the first red candle as an exit... (I'll go into this in more detail in a moment)
+
+## Exit from the trade ...
+
+So now we come to the tricky part of the trade.
+
+### The process is as follows:
+
+- if trade:
+   - if wait & close < open: exit
+   - elif profit > stoploss2 * 1.5 or profit < stoploss2: exit
+   - elif count > 2 & < 7 & profit > stoploss1 * 1.5: exit
+   - elif count > 2 & < 7 & close > trade.entry & win > 1%:
+       - if all candles close > open: wait 1
+       - else: exit
+   - elif count >= 7 & win > 0: exit
+
+## My experience:
+
+I have found that it is much more profitable to take the 2-3 percent in a trade and exit accordingly than to wait any longer!
+
+Of course, you sometimes miss out on larger price jumps because the strategy exits too early.
+
+But ultimately, the most common case is: Win Candle +0.5% -> Win Candle +1% -> Loose Candle -2% -> Loose -0.5% ... -> Up to a total of Loose -5% and thus the stop loss (stated at the top of the strategy with: -0.05) occurs.
+
+Over a longer period of time, any trade that makes a profit (no matter how small it may be...) is far better than a trade that results in a loss.
+
+Small things also make a big difference, as can easily be seen from the backtest profits 01.02.2023 - 01.12.2023 & 01.01.2024 - 08.10.2024.
+
+They achieved incredible 2663% and 2328% profits. What that means in USDT: Started with 100 USDT, ended with 2763 USDT & 2428 USDT!
+
+## Background Infos:
+
+Some people may ask themselves whether the profits achieved by the backtests are realistic at all? And if so, how do they come about?
+
+Let's assume that the trades yield around 3% profit. And we win every trade. We win 1 trade every day, which would result in a profit of (around) 100% in 30 days. Ergo (starting with 100): 200.
+
+If the bot continues testing because the period is not yet over, the result is that the same 3% now results in trades with 6% because the amount of USDT used is twice as high as at the beginning.
+
+This means that only half as many winning trades are needed to reach this 100% (100 USDT) again. If you just keep calculating, there will always come a point where the profits reach astronomical proportions
+
+because if we invest 10 times 100 USDT and reach our 3% again, the trade will be 30% if we use our 100 USDT as a benchmark... 3% of 1000 USDT = 30 USDT, which in turn is 30% of 100 USDT. Actually, it makes 
+
+sense, right? You just have to keep in mind that freqtrade derives the percentages from the starting capital (i.e. 100 USDT) in the balance sheet... To illustrate this again: starting with 100 USDT, we are at 
+
+1000 USDT and we lose a trade with -1.5%, which in turn is 1000 USDT = 15 USDT. So the trade is shown as -15%, which is correct because -15 USDT out of an initial 100 USDT is -15%. If you want to see what 
+
+percentage the trade actually ends at, you have to look at the "Avg Profit %". This shows you how much profit you can expect from this pair (in this scenario still 3%) ;-)
+
+So that's all from me for now...
+
+Always stay creamy :D

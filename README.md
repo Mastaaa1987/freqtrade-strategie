@@ -16,7 +16,7 @@ Die Indikatoren die für den Einstieg genutzt werden sind RSI, Stochastik & MACD
 
 ## Einstieg in den Trade:
 
-![Indikatoren1](https://raw.githubusercontent.com/Mastaaa1987/freqtrade-strategie/refs/heads/main/res/freqtrade_indikatoren.jpg)
+![Indikatoren1](https://raw.githubusercontent.com/Mastaaa1987/freqtrade-strategie/refs/heads/main_bakk/res/freqtrade_indikatoren.jpg)
 
 - 1: Der Stochastik %K,%D befinden sich unter Oversold Line (20)
 - 2: Der RSI kreuzt die 50er line von unten nach oben.
@@ -30,7 +30,7 @@ Die Indikatoren die für den Einstieg genutzt werden sind RSI, Stochastik & MACD
 
 ## Zuvor müssen erst 3 Faktoren zutreffen damit ein Trade auch wirklich beginnt.
 
-![Indikatoren2](https://raw.githubusercontent.com/Mastaaa1987/freqtrade-strategie/refs/heads/main/res/freqtrade_indikatoren2.jpg)
+![Indikatoren2](https://raw.githubusercontent.com/Mastaaa1987/freqtrade-strategie/refs/heads/main_bakk/res/freqtrade_indikatoren2.jpg)
 
 - 1: Die EMA 50 Liegt über EMA 200 Linie.
 - 2: Die EMA 200 Line bewegt sich aufwärts.
@@ -129,7 +129,7 @@ The indicators used for entry are RSI, Stochastic & MACD, all with the default s
 
 ## Entry into the trade:
 
-![Indikatoren1](https://raw.githubusercontent.com/Mastaaa1987/freqtrade-strategie/refs/heads/main/res/freqtrade_indikatoren.jpg)
+![Indikatoren1](https://raw.githubusercontent.com/Mastaaa1987/freqtrade-strategie/refs/heads/main_bakk/res/freqtrade_indikatoren.jpg)
 
 - 1: The stochastic %K,%D are below the oversold line (20)
 - 2: The RSI crosses the 50 line from bottom to top.
@@ -143,7 +143,7 @@ The indicators used for entry are RSI, Stochastic & MACD, all with the default s
 
 ## Three factors must be met before a trade can actually begin.
 
-![Indikatoren2](https://raw.githubusercontent.com/Mastaaa1987/freqtrade-strategie/refs/heads/main/res/freqtrade_indikatoren2.jpg)
+![Indikatoren2](https://raw.githubusercontent.com/Mastaaa1987/freqtrade-strategie/refs/heads/main_bakk/res/freqtrade_indikatoren2.jpg)
 
 - 1: The EMA 50 is above the EMA 200 line.
 - 2: The EMA 200 line is moving up.

@@ -1,4 +1,4 @@
-# freqtrade-strategy
+# freqtrade-strategie
 
 ## Backtest Results Information
 

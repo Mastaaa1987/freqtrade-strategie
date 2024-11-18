@@ -33,7 +33,7 @@ import talib.abstract as ta
 import pandas_ta as pta
 from technical import qtpylib
 
-class Scalping(IStrategy):
+class ScalpingB(IStrategy):
     INTERFACE_VERSION = 3
     timeframe = '5m'
 
@@ -87,13 +87,8 @@ class Scalping(IStrategy):
         }
 
     def calc(self, dataframe: DataFrame, pair):
-        if(self.timeframe == '1h'):
-            df = dataframe.copy()
-        else:
-            df = self.dp.get_pair_dataframe(pair=pair, timeframe='1h')
-            if(int(df.loc[len(df)-1]['date'].strftime("%M")) != 55):
-                data = {'date': dataframe.loc[len(dataframe)-1]['date'], 'open': df.loc[len(df)-1]['close'], 'high': 0, 'low': 0, 'close': dataframe.loc[len(dataframe)-1]['close'], 'volume': 0}
-                df = df._append(data, ignore_index = True)
+        df = dataframe.copy()
+
         df["change"] = (100 / df['open'] * df['close'] - 100)
 
         df['vol_ma'] = df['volume'].rolling(window=30).mean()
@@ -133,6 +128,7 @@ class Scalping(IStrategy):
             if(len(df) == 999): z = 1
             else: z = 0
         else: z = 0
+        po, sa = 0, 0
         for i in range(z, len(df)):
             v['enter'], v['exit'] = 0, 0
             if(df.loc[i]['slowd'] > 80) and (df.loc[i]['slowk'] > 80): v['stoch'] = 1
@@ -151,6 +147,8 @@ class Scalping(IStrategy):
                             v['c'] = df.loc[i]['close']
 
                             v['enter'], v['trade'], v['count'], v['win'], v['tagg'] = 1, 1, 0, 0, ''
+                            if(po == 1):
+                                start = df.loc[i]['date'].strftime("%H-%d-%m")
             elif(v['trade'] == 1):
                 exit = 0
                 v['count'] = (v['count'] + 1)
@@ -208,46 +206,86 @@ class Scalping(IStrategy):
                         v['al'] = (v['al'] + v['win'])
                         v['lc'] = (v['lc'] + 1)
                     v['awin'] = (v['awin'] + v['win'])
+                    count = v['count']
                     v['exit'], v['trade'], v['sl1'], v['sl2'], v['c'], v['wait'], v['count'] = 1, 0, 0, 0, 0, 0, 0
+                    if(sc == 1):
+                        if(df.loc[i]['date'].strftime("%m-%y") != ad):
+                            aw, al, awin, wc, lc, ac = 0, 0, 0, 0, 0, 0
+                            ad = df.loc[i]['date'].strftime("%m-%y")
+                        if(v['win'] > 0):
+                            aw = (aw + v['win'])
+                            wc = (wc + 1)
+                        elif(v['win'] < 0):
+                            al = (al + v['win'])
+                            lc = (lc + 1)
+                        awin = (awin + v['win'])
+                        ac = (ac + 1)
+                        a[ad] = [awin, aw, al, ac, wc, lc]
+
+                    if(po == 1):
+                        print(pair, start, df.loc[i]['date'].strftime("%H-%d-%m"), v['win'], v['tagg'], count)
             v['AW'].append(v['aw']), v['AL'].append(v['al']), v['WC'].append(v['wc']), v['LC'].append(v['lc']), v['TRADE'].append(v['trade']), v['COUNT'].append(v['count']), v['WAIT'].append(v['wait']), v['C'].append(v['c']), v['SL1'].append(v['sl1']), v['SL2'].append(v['sl2']), v['ENTER'].append(v['enter']), v['EXIT'].append(v['exit']), v['AWIN'].append(v['awin']), v['STOCH'].append(v['stoch']), v['TAGG'].append(v['tagg'])
         df['aw'], df['al'], df['wc'], df['lc'], df['trade'], df['count'], df['wait'], df['enter'], df['exit'], df['awin'], df['sc'], df['tag'], df['sl1'], df['sl2'], df['c'] = v['AW'], v['AL'], v['WC'], v['LC'], v['TRADE'], v['COUNT'], v['WAIT'], v['ENTER'], v['EXIT'], v['AWIN'], v['STOCH'], v['TAGG'], v['SL1'], v['SL2'], v['C']
-        if(self.timeframe != '1h'):
-            dataframe = merge_informative_pair(dataframe, df, self.timeframe, '1h', ffill=True)
 
-        # if(v['awin'] > 20):
-        print(v['awin'], v['wc'], v['aw'], v['lc'], v['al'], pair)
-        if(self.timeframe != '1h'):
-            return dataframe
+        if(int(len(df)/100) > 9):
+            aw = 9
         else:
-            return df
+            aw = int(len(df)/100)
 
-    def informative_pairs(self):
-        pairs = self.dp.current_whitelist()
-        #informative_pairs = [(pair, '1d') for pair in pairs]
-        if(self.timeframe == '1h'):
-            informative_pairs = [(pair, '1h') for pair in pairs]
-        else:
-            informative_pairs = [(pair, self.timeframe) for pair in pairs]
-            informative_pairs += [(pair, '1h') for pair in pairs]
-        return informative_pairs
+        if(v['awin'] > aw):
+            if(sa == 1):
+                import os, json, sys
+                rp = os.path.normpath(os.path.dirname(os.path.abspath(__file__))+'/../tmp/')
+                file = os.path.join(rp, 'bt')
+                if os.path.exists(file+".json"):
+                    with open(file+".json") as k:
+                        r = json.load(k)
+                    value = r.get('value')
+                    os.remove(file+".json")
+                else:
+                    value = {}
+                m = int(df.loc[len(df)-1]['date'].strftime("%m"))
+                dat = str(df.loc[len(df)-1]['date'].strftime("%Y")) + '-' + str(m-1) + '-' + str(m)
+                if dat not in value:
+                    value[dat] = []
+                if pair not in value[dat]:
+                    value[dat].append(pair)
+                data = {"value": value}
+                with open(file+".json", "w") as k:
+                    json.dump(data, k, indent=4)
+            if(po == 1):
+                print(pair, v['awin'])
+            else:
+                print(pair)
+        return df
+
+    # def informative_pairs(self):
+    #     pairs = self.dp.current_whitelist()
+    #     #informative_pairs = [(pair, '1d') for pair in pairs]
+    #     if(self.timeframe == '1h'):
+    #         informative_pairs = [(pair, '1h') for pair in pairs]
+    #     else:
+    #         informative_pairs = [(pair, self.timeframe) for pair in pairs]
+    #         informative_pairs += [(pair, '1h') for pair in pairs]
+    #     return informative_pairs
 
     # Indikatoren berechnen
     def populate_indicators(self, dataframe: pd.DataFrame, metadata: dict) -> pd.DataFrame:
-        if not self.dp:
-            return dataframe
-        # Some Stuff ...
-        pairs = self.dp.current_whitelist()
-        p1 = pairs[len(pairs)-1]
-        p0 = pairs[0]
-        if(metadata["pair"] == p0):
-            rp = os.path.normpath(os.path.dirname(os.path.abspath(__file__))+'/../')
-            file = os.path.join(rp, '.ts')
-            if os.path.exists(file+".json"):
-                os.remove(file+".json")
-            t = int(time.time())
-            data = {"value": t}
-            with open(file+".json", "w") as k:
-                json.dump(data, k, indent=4)
+        # if not self.dp:
+        #     return dataframe
+        # # Some Stuff ...
+        # pairs = self.dp.current_whitelist()
+        # p1 = pairs[len(pairs)-1]
+        # p0 = pairs[0]
+        # if(metadata["pair"] == p0):
+        #     rp = os.path.normpath(os.path.dirname(os.path.abspath(__file__))+'/../')
+        #     file = os.path.join(rp, '.ts')
+        #     if os.path.exists(file+".json"):
+        #         os.remove(file+".json")
+        #     t = int(time.time())
+        #     data = {"value": t}
+        #     with open(file+".json", "w") as k:
+        #         json.dump(data, k, indent=4)
 
         # Strategy Position ...
         dataframe["enter"] = 0
@@ -258,16 +296,16 @@ class Scalping(IStrategy):
 
         dataframe = self.calc(dataframe, metadata['pair'])
 
-        # Other Stuff ...
-        if(metadata["pair"] == p1):
-            rp = os.path.normpath(os.path.dirname(os.path.abspath(__file__))+'/../')
-            file = os.path.join(rp, '.ts')
-            if os.path.exists(file+".json"):
-                with open(file+".json") as k:
-                    r = json.load(k)
-                value = r.get('value')
-                t = int(time.time())
-                print('Loading took %s seconds ...' % str(t-value))
+        # # Other Stuff ...
+        # if(metadata["pair"] == p1):
+        #     rp = os.path.normpath(os.path.dirname(os.path.abspath(__file__))+'/../')
+        #     file = os.path.join(rp, '.ts')
+        #     if os.path.exists(file+".json"):
+        #         with open(file+".json") as k:
+        #             r = json.load(k)
+        #         value = r.get('value')
+        #         t = int(time.time())
+        #         print('Loading took %s seconds ...' % str(t-value))
 
         return dataframe
 

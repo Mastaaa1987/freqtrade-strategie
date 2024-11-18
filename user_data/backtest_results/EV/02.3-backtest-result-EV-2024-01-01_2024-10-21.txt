@@ -1,0 +1,73 @@
+    stoploss = -0.03
+    trailing_stop = True
+    trailing_stop_positive = 0.003
+    trailing_stop_positive_offset = 0.02
+    trailing_only_offset_is_reached = True
+
+    is_optimize_32 = True
+    buy_rsi_fast_32 = IntParameter(20, 70, default=40, space='buy', optimize=is_optimize_32)
+    buy_rsi_32 = IntParameter(15, 50, default=42, space='buy', optimize=is_optimize_32)
+    buy_sma15_32 = DecimalParameter(0.900, 1, default=0.973, decimals=3, space='buy', optimize=is_optimize_32)
+    buy_cti_32 = DecimalParameter(-1, 1, default=0.69, decimals=2, space='buy', optimize=is_optimize_32)
+
+    sell_fastx = IntParameter(50, 100, default=84, space='sell', optimize=True)
+
+    cci_opt = True
+    sell_loss_cci = IntParameter(low=0, high=600, default=120, space='sell', optimize=cci_opt)
+    sell_loss_cci_profit = DecimalParameter(-0.02, 0, default=-0.02, decimals=2, space='sell', optimize=cci_opt)
+    
+                   SUMMARY METRICS
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━┓
+┃ Metric                      ┃ Value                ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━┩
+│ Backtesting from            │ 2024-01-01 00:00:00  │
+│ Backtesting to              │ 2024-10-21 15:35:00  │
+│ Max open trades             │ 1                    │
+│                             │                      │
+│ Total/Daily Avg Trades      │ 4395 / 14.95         │
+│ Starting balance            │ 1000 USDT            │
+│ Final balance               │ 3535309.18 USDT      │
+│ Absolute profit             │ 3534309.18 USDT      │
+│ Total profit %              │ 353430.92%           │
+│ CAGR %                      │ 2542983.08%          │
+│ Sortino                     │ 13.89                │
+│ Sharpe                      │ 14.99                │
+│ Calmar                      │ 140353.79            │
+│ Profit factor               │ 1.29                 │
+│ Expectancy (Ratio)          │ 804.17 (0.10)        │
+│ Avg. daily profit %         │ 1202.15%             │
+│ Avg. stake amount           │ 298678.576 USDT      │
+│ Total trade volume          │ 1312692342.66 USDT   │
+│                             │                      │
+│ Best Pair                   │ CREAM/USDT 24920.03% │
+│ Worst Pair                  │ GFT/USDT -15306.13%  │
+│ Best trade                  │ CREAM/USDT 22.09%    │
+│ Worst trade                 │ AEVO/USDT -3.19%     │
+│ Best day                    │ 458864.638 USDT      │
+│ Worst day                   │ -425991.788 USDT     │
+│ Days win/draw/lose          │ 173 / 8 / 114        │
+│ Avg. Duration Winners       │ 0:18:00              │
+│ Avg. Duration Loser         │ 0:27:00              │
+│ Max Consecutive Wins / Loss │ 47 / 16              │
+│ Rejected Entry signals      │ 4569                 │
+│ Entry/Exit Timeouts         │ 0 / 0                │
+│                             │                      │
+│ Min balance                 │ 625.02 USDT          │
+│ Max balance                 │ 3765385.215 USDT     │
+│ Max % of account underwater │ 72.93%               │
+│ Absolute Drawdown (Account) │ 16.36%               │
+│ Absolute Drawdown           │ 588245.533 USDT      │
+│ Drawdown high               │ 3593836.57 USDT      │
+│ Drawdown low                │ 3005591.037 USDT     │
+│ Drawdown Start              │ 2024-10-10 00:20:00  │
+│ Drawdown End                │ 2024-10-10 12:50:00  │
+│ Market change               │ -6.22%               │
+└─────────────────────────────┴──────────────────────┘
+
+Backtested 2024-01-01 00:00:00 -> 2024-10-21 15:35:00 | Max open trades : 1
+                                                           STRATEGY SUMMARY
+┏━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ Strategy ┃ Trades ┃ Avg Profit % ┃ Tot Profit USDT ┃ Tot Profit % ┃ Avg Duration ┃  Win  Draw  Loss  Win% ┃                Drawdown ┃
+┡━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━┩
+│       EV │   4395 │         0.22 │     3534309.180 │    353430.92 │      0:21:00 │ 2878     0  1517  65.5 │ 588245.533 USDT  16.36% │
+└──────────┴────────┴──────────────┴─────────────────┴──────────────┴──────────────┴────────────────────────┴─────────────────────────┘

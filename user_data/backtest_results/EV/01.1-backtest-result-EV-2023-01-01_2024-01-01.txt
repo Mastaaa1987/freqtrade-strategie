@@ -1,0 +1,73 @@
+    stoploss = -0.03
+    trailing_stop = True
+    trailing_stop_positive = 0.003
+    trailing_stop_positive_offset = 0.03
+    trailing_only_offset_is_reached = True
+
+    is_optimize_32 = True
+    buy_rsi_fast_32 = IntParameter(20, 70, default=40, space='buy', optimize=is_optimize_32)
+    buy_rsi_32 = IntParameter(15, 50, default=42, space='buy', optimize=is_optimize_32)
+    buy_sma15_32 = DecimalParameter(0.900, 1, default=0.973, decimals=3, space='buy', optimize=is_optimize_32)
+    buy_cti_32 = DecimalParameter(-1, 1, default=0.69, decimals=2, space='buy', optimize=is_optimize_32)
+
+    sell_fastx = IntParameter(50, 100, default=84, space='sell', optimize=True)
+
+    cci_opt = True
+    sell_loss_cci = IntParameter(low=0, high=600, default=120, space='sell', optimize=cci_opt)
+    sell_loss_cci_profit = DecimalParameter(-0.02, 0, default=-0.02, decimals=2, space='sell', optimize=cci_opt)
+
+                   SUMMARY METRICS
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━┓
+┃ Metric                      ┃ Value               ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━┩
+│ Backtesting from            │ 2023-01-01 00:00:00 │
+│ Backtesting to              │ 2024-01-01 00:00:00 │
+│ Max open trades             │ 1                   │
+│                             │                     │
+│ Total/Daily Avg Trades      │ 5026 / 13.77        │
+│ Starting balance            │ 1000 USDT           │
+│ Final balance               │ 11401604.72 USDT    │
+│ Absolute profit             │ 11400604.72 USDT    │
+│ Total profit %              │ 1140060.47%         │
+│ CAGR %                      │ 1140060.47%         │
+│ Sortino                     │ 9.98                │
+│ Sharpe                      │ 9.70                │
+│ Calmar                      │ 164448.24           │
+│ Profit factor               │ 1.24                │
+│ Expectancy (Ratio)          │ 2268.33 (0.10)      │
+│ Avg. daily profit %         │ 3123.45%            │
+│ Avg. stake amount           │ 783398.397 USDT     │
+│ Total trade volume          │ 3937360345.458 USDT │
+│                             │                     │
+│ Best Pair                   │ RIF/USDT 8743.08%   │
+│ Worst Pair                  │ HIFI/USDT -5982.26% │
+│ Best trade                  │ WRX/USDT 14.50%     │
+│ Worst trade                 │ REI/USDT -3.19%     │
+│ Best day                    │ 3715931.233 USDT    │
+│ Worst day                   │ -1637461.222 USDT   │
+│ Days win/draw/lose          │ 220 / 3 / 141       │
+│ Avg. Duration Winners       │ 0:26:00             │
+│ Avg. Duration Loser         │ 0:29:00             │
+│ Max Consecutive Wins / Loss │ 14 / 10             │
+│ Rejected Entry signals      │ 5041                │
+│ Entry/Exit Timeouts         │ 0 / 0               │
+│                             │                     │
+│ Min balance                 │ 718.087 USDT        │
+│ Max balance                 │ 12888468.805 USDT   │
+│ Max % of account underwater │ 51.21%              │
+│ Absolute Drawdown (Account) │ 36.29%              │
+│ Absolute Drawdown           │ 4003362.656 USDT    │
+│ Drawdown high               │ 11031468.693 USDT   │
+│ Drawdown low                │ 7028106.037 USDT    │
+│ Drawdown Start              │ 2023-12-24 03:50:00 │
+│ Drawdown End                │ 2023-12-26 17:40:00 │
+│ Market change               │ 91.32%              │
+└─────────────────────────────┴─────────────────────┘
+
+Backtested 2023-01-01 00:00:00 -> 2024-01-01 00:00:00 | Max open trades : 1
+                                                            STRATEGY SUMMARY
+┏━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ Strategy ┃ Trades ┃ Avg Profit % ┃ Tot Profit USDT ┃ Tot Profit % ┃ Avg Duration ┃  Win  Draw  Loss  Win% ┃                 Drawdown ┃
+┡━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+│       EV │   5026 │         0.25 │    11400604.720 │   1140060.47 │      0:27:00 │ 2973     0  2053  59.2 │ 4003362.656 USDT  36.29% │
+└──────────┴────────┴──────────────┴─────────────────┴──────────────┴──────────────┴────────────────────────┴──────────────────────────┘

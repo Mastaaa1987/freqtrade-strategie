@@ -12,7 +12,7 @@ FakeoutStrategy schaut in die Zukunft was im Live Mode niemals funktionieren wir
 
 ### Die NASOSv5_mod3 Signale lassen sich im prinzip gut mit denen von E0V1E ergänzen da das ewo_1 signal zu den buy_1 signalen viele zusätzliche erzeugt ! Ich bleibe aber Safe und nutze nur buy_1 von E0V1E, welche am 14-15.11.2024 an zwei Tagen 20% gewinne erzeugt hat ;-)
 
-![LiveTrade Result](https://raw.githubusercontent.com/Mastaaa1987/freqtrade-strategy/refs/heads/main/user_data/E0V1E_LiveRun_and_backtest_results-2024-11-14_2024-11-16.png)
+![LiveTrade Result](https://raw.githubusercontent.com/Mastaaa1987/freqtrade-strategie/refs/heads/main/user_data/E0V1E_LiveRun_and_backtest_results-2024-11-14_2024-11-16.png)
 
 ### Background Infos:
 

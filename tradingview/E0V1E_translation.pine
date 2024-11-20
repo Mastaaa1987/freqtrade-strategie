@@ -87,13 +87,13 @@ var label conds_label_2 = na
 var string conds_text = na
 
 histb(x, t) =>
-    h = t == 0 ? x == 0 ? 0.0 : x == 1 ? 1.5 : x == 2 ? 3.0 : x == 3 ? 4.5 : x == 4 ? 6.0 : x == 5 ? 7.5 : x == 6 ? 9.0 : x == 7 ? 10.5 : x == 8 ? 12.0 : x == 9 ? 13.5 : x == 10 ? 15.0 : 16.5 : x == 0 ? 1.0 : x == 1 ? 2.5 : x == 2 ? 4.0 : x == 3 ? 5.5 : x == 4 ? 7.0 : x == 5 ? 8.5 : x == 6 ? 10.0 : x == 7 ? 11.5 : x == 8 ? 13.0 : x == 9 ? 14.5 : x == 10 ? 16.0 : 17.5
+    h = t == 0 ? x == 0 ? 0.0 : x == 1 ? 1.0 : x == 2 ? 2.0 : x == 3 ? 3.0 : x == 4 ? 4.0 : x == 5 ? 5.0 : x == 6 ? 6.0 : x == 7 ? 7.0 : x == 8 ? 8.0 : x == 9 ? 9.0 : x == 10 ? 10.0 : 11.0 : x == 0 ? 0.5 : x == 1 ? 1.5 : x == 2 ? 2.5 : x == 3 ? 3.5 : x == 4 ? 4.5 : x == 5 ? 5.5 : x == 6 ? 6.5 : x == 7 ? 7.5 : x == 8 ? 8.5 : x == 9 ? 9.5 : x == 10 ? 10.5 : 11.5
     h
 
 correlationTrend(Series_1, Period) => // Correlation Trend Function
     period = ta.highest(int(Period), 2)
 	Ex = 0.0, Ey = 0.0, Ex2 = 0.0, Ey2 = 0.0, Exy = 0.0
-	for i=0 to period-1 
+	for i=0 to period-1
 		X = nz(Series_1[i])
 		Y = -i
 		Ex  := Ex  + X
@@ -111,8 +111,8 @@ RoundUp(number, decimals) =>
 // Inputs
 use_trailing_stop = input.bool(false, title='Use Trailing Stop')
 use_stoploss = input.bool(true, title='Use Stoploss')
-show_conds = input.bool(false, title='Show Conditions')
-show_indi = input.bool(true, title='Show Indicators')
+show_conds = input.bool(true, title='Show Conditions')
+show_indi = input.bool(false, title='Show Indicators')
 stoploss = input.float(-0.25, title="Stoploss", minval=-1, maxval=0)
 trailing_stop = input.float(0.03, title="Traling Stop", minval=0, maxval=1)
 stop_duration_candles = input.int(18, title="CooldownPeriod", minval=0)
@@ -172,7 +172,7 @@ if not na(trade)
         if not use_trailing_stop
             lable_at_signal := label.new(bar_index, trade.entry_price * 1.1, "", style = label.style_label_center, textcolor = color.white, force_overlay=true)
 
-        
+
     if low < trade.min_rate and bar_index != trade.start_bar_index
         trade.min_rate := low
         trade.min_profit := (100 / trade.open_rate * trade.min_rate - 100) / 100
@@ -269,7 +269,7 @@ else
         trade.exit := true
         trade.exit_tag := 'ma120_sell_fast'
         //strategy.close("MA120 Sell")
-    if trade.hold and close < ma120 and close < ma240 and trade.min_profit <= -0.1 
+    if trade.hold and close < ma120 and close < ma240 and trade.min_profit <= -0.1
         trade.exit := true
         trade.exit_tag := 'ma120_sell'
     if use_stoploss
@@ -339,13 +339,15 @@ plot(show_conds ? histb(1, 1) : na, "rsi_fast < buy_rsi_fast_32", rsi_fast < buy
 plot(show_conds ? histb(2, 1) : na, "rsi > buy_rsi_32", rsi > buy_rsi_32 ? GREEN_LIGHT : RED_LIGHT, histbase=histb(2, 0), style=plot.style_columns)
 plot(show_conds ? histb(3, 1) : na, "close < sma_15_b", close < sma_15_b ? GREEN_LIGHT : RED_LIGHT, histbase=histb(3, 0), style=plot.style_columns)
 plot(show_conds ? histb(4, 1) : na, "cti < buy_cti_32", cti < buy_cti_32 ? GREEN_LIGHT : RED_LIGHT, histbase=histb(4, 0), style=plot.style_columns)
-if barstate.islast
-    if show_conds
-        label.new(bar_index + 10, 0.3, "rsi_slow < rsi_slow[1]", style = label.style_none, textcolor = #ffffff)
-        label.new(bar_index + 10, 1.8, "rsi_fast < 40", style = label.style_none, textcolor = #ffffff)
-        label.new(bar_index + 10, 3.2, "rsi > 42", style = label.style_none, textcolor = #ffffff)
-        label.new(bar_index + 10, 4.7, "close < sma_15_b", style = label.style_none, textcolor = #ffffff)
-        label.new(bar_index + 10, 6.2, "cti < 0.69", style = label.style_none, textcolor = #ffffff)         
+
+var table conds_table = na
+if show_conds
+    conds_table := table.new(position.middle_right, 1, 5, border_color = color.green, border_width = 0)
+    table.cell(conds_table, 0, 0, "cti < 0.69", bgcolor = color.rgb(0, 0, 0, 50), height = 20, text_color = color.green, text_size = size.normal)
+    table.cell(conds_table, 0, 1, "close < sma_15_b", bgcolor = color.rgb(0, 0, 0, 50), height = 22, text_color = color.green, text_size = size.normal)
+    table.cell(conds_table, 0, 2, "rsi > 42", bgcolor = color.rgb(0, 0, 0, 50), height = 22, text_color = color.green, text_size = size.normal)
+    table.cell(conds_table, 0, 3, "rsi_fast < 40", bgcolor = color.rgb(0, 0, 0, 50), height = 22, text_color = color.green, text_size = size.normal)
+    table.cell(conds_table, 0, 4, "rsi_slow < rsi_slow[1]", bgcolor = color.rgb(0, 0, 0, 50), height = 20, text_color = color.green, text_size = size.normal)
 
 
 //plot(sma_15, color=color.new(color.purple, 0), linewidth=3, title='sma_15', force_overlay=true)

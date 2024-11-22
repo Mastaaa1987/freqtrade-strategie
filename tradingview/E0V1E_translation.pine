@@ -3,7 +3,7 @@
 
 //@version=5
 //strategy("Freqtrade Strategy Translation", overlay=true, max_lines_count = 500, max_labels_count = 500, max_bars_back = 1)
-indicator("Freqtrade Strategy Translation", max_lines_count = 500, max_labels_count = 500, max_bars_back = 1)
+indicator("Freqtrade Strategy Translation", max_lines_count = 500, max_labels_count = 500, max_bars_back = 500)
 
 color GREEN         = #26a69a
 color GREEN_LIGHT   = color.new(GREEN, 50)
@@ -339,15 +339,18 @@ plot(show_conds ? histb(1, 1) : na, "rsi_fast < buy_rsi_fast_32", rsi_fast < buy
 plot(show_conds ? histb(2, 1) : na, "rsi > buy_rsi_32", rsi > buy_rsi_32 ? GREEN_LIGHT : RED_LIGHT, histbase=histb(2, 0), style=plot.style_columns)
 plot(show_conds ? histb(3, 1) : na, "close < sma_15_b", close < sma_15_b ? GREEN_LIGHT : RED_LIGHT, histbase=histb(3, 0), style=plot.style_columns)
 plot(show_conds ? histb(4, 1) : na, "cti < buy_cti_32", cti < buy_cti_32 ? GREEN_LIGHT : RED_LIGHT, histbase=histb(4, 0), style=plot.style_columns)
+plot(show_conds ? 4.7 : na, "trenn line", color=entry_color, linewidth=2, offset=1)
+plot(show_conds ? histb(5, 1) : na, "fastk > sell_fastx", fastk > sell_fastx ? GREEN_LIGHT : RED_LIGHT, histbase=histb(5, 0), style=plot.style_columns)
 
 var table conds_table = na
 if show_conds
-    conds_table := table.new(position.middle_right, 1, 5, border_color = color.green, border_width = 0)
-    table.cell(conds_table, 0, 0, "cti < 0.69", bgcolor = color.rgb(0, 0, 0, 50), height = 20, text_color = color.green, text_size = size.normal)
-    table.cell(conds_table, 0, 1, "close < sma_15_b", bgcolor = color.rgb(0, 0, 0, 50), height = 22, text_color = color.green, text_size = size.normal)
-    table.cell(conds_table, 0, 2, "rsi > 42", bgcolor = color.rgb(0, 0, 0, 50), height = 22, text_color = color.green, text_size = size.normal)
-    table.cell(conds_table, 0, 3, "rsi_fast < 40", bgcolor = color.rgb(0, 0, 0, 50), height = 22, text_color = color.green, text_size = size.normal)
-    table.cell(conds_table, 0, 4, "rsi_slow < rsi_slow[1]", bgcolor = color.rgb(0, 0, 0, 50), height = 20, text_color = color.green, text_size = size.normal)
+    conds_table := table.new(position.middle_right, 1, 6, border_color = color.green, border_width = 0)
+    table.cell(conds_table, 0, 0, "fastk > " + str.tostring(sell_fastx), bgcolor = color.rgb(0, 0, 0, 50), height = 18, text_color = color.green, text_size = size.normal)
+    table.cell(conds_table, 0, 1, "cti < " + str.tostring(buy_cti_32), bgcolor = color.rgb(0, 0, 0, 50), height = 18, text_color = color.green, text_size = size.normal)
+    table.cell(conds_table, 0, 2, "close < sma_15_b", bgcolor = color.rgb(0, 0, 0, 50), height = 18, text_color = color.green, text_size = size.normal)
+    table.cell(conds_table, 0, 3, "rsi > " + str.tostring(buy_rsi_32), bgcolor = color.rgb(0, 0, 0, 50), height = 18, text_color = color.green, text_size = size.normal)
+    table.cell(conds_table, 0, 4, "rsi_fast < " + str.tostring(buy_rsi_fast_32), bgcolor = color.rgb(0, 0, 0, 50), height = 18, text_color = color.green, text_size = size.normal)
+    table.cell(conds_table, 0, 5, "rsi_slow < rsi_slow[1]", bgcolor = color.rgb(0, 0, 0, 50), height = 18, text_color = color.green, text_size = size.normal)
 
 
 //plot(sma_15, color=color.new(color.purple, 0), linewidth=3, title='sma_15', force_overlay=true)

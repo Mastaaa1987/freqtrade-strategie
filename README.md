@@ -25,3 +25,5 @@ Der force_exit auf der Backtest Seite resultiert aus dem Backtest ende bzw. data
 Alle trades die der bot in real live abgeschlossen hat sind zu 90% der Fälle sogar besser als der auf der Backtest Seite gezeigten Trades ! Mal schaun ob das so bleibt ;-)
 
 Die Daten aus dem Bild sind von 2 Tagen und haben insgesamt 20% Profit in diesen erzeugt ....!
+
+![LiveTrade Result 2](https://raw.githubusercontent.com/Mastaaa1987/freqtrade-strategie/refs/heads/main/user_data/E0V1E_LiveRun_and_backtest_results-2024-11-16_2024-11-22.png)

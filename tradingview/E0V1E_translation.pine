@@ -81,7 +81,6 @@ var label close_label = na
 var line sl_line = na
 var label sl_label = na
 var label lable_at_signal = na
-var bool show_profit_panel = true
 var label conds_label = na
 var label conds_label_2 = na
 var string conds_text = na
@@ -109,33 +108,36 @@ RoundUp(number, decimals) =>
     math.ceil(number * factor) / factor
 
 // Inputs
-use_trailing_stop = input.bool(false, title='Use Trailing Stop')
-use_stoploss = input.bool(true, title='Use Stoploss')
-show_conds = input.bool(true, title='Show Conditions')
-show_indi = input.bool(false, title='Show Indicators')
-stoploss = input.float(-0.25, title="Stoploss", minval=-1, maxval=0)
-trailing_stop = input.float(0.03, title="Traling Stop", minval=0, maxval=1)
-stop_duration_candles = input.int(18, title="CooldownPeriod", minval=0)
-buy_rsi_fast_32 = input.int(40, title="Buy RSI Fast", minval=20, maxval=70)
-buy_rsi_32 = input.int(42, title="Buy RSI", minval=15, maxval=50)
-buy_sma15_32 = input.float(0.973, title="Buy SMA Factor", minval=0.9, maxval=1)
-buy_cti_32 = input.float(0.69, title="Buy CTI", minval=-1, maxval=1)
-//sell_win_profit = input.float(0.01, title="Sell Win Profit", minval=-1, maxval=1)
-sell_fastx = input.int(84, title="Sell FastK", minval=50, maxval=100)
-//sell_win_cci = input.int(80, title="Sell CCI Win", minval=0, maxval=600)
-sell_loss_cci = input.int(120, title="Sell CCI Loss", minval=0, maxval=600)
-sell_loss_profit = input.float(-0.05, title="Sell Loss Profit", minval=-1, maxval=1)
-
-// Trailing Stop
-//strategy.exit("Trailing Stop", trail_offset = close * 1.03, trail_points=strategy.position_avg_price * 0.03)
-
+use_trailing_stop = input.bool(false, title='Use Trailing Stop', group='Bools', inline='1')
+use_stoploss = input.bool(true, title='Use Stoploss', group='Bools', inline='1')
+show_conds = input.bool(true, title='Show Conditions', group='Bools', inline='2')
+show_indi = input.bool(false, title='Show Indicators', group='Bools', inline='2')
+show_buy_1 = input.bool(true, title='Show Buy_1', group='Bools', inline='3')
+show_buy_new = input.bool(false, title='Show Buy_New', group='Bools', inline='3')
+show_profit_panel = input.bool(true, title='Show Profit Panel', group='Bools', inline='4')
+//Protection
+stoploss = input.float(-0.25, title="Stoploss", minval=-1, maxval=0, group='Protection')
+trailing_stop = input.float(0.03, title="Traling Stop", minval=0, maxval=1, group='Protection')
+stop_duration_candles = input.int(18, title="CooldownPeriod", minval=0, group='Protection')
+// Buy
+buy_rsi_fast_32 = input.int(40, title="Buy RSI Fast", minval=20, maxval=70, group='Buy')
+buy_rsi_32 = input.int(42, title="Buy RSI", minval=15, maxval=50, group='Buy')
+buy_sma15_32 = input.float(0.973, title="Buy SMA Factor", minval=0.9, maxval=1, group='Buy')
+buy_cti_32 = input.float(0.69, title="Buy CTI", minval=-1, maxval=1, group='Buy')
+// Sell
+sell_fastx = input.int(84, title="Sell FastK", minval=50, maxval=100, group='Sell')
+sell_loss_cci = input.int(120, title="Sell CCI Loss", minval=0, maxval=600, group='Sell')
+sell_loss_profit = input.float(-0.05, title="Sell Loss Profit", minval=-1, maxval=1, group='Sell')
+//sell_win_profit = input.float(0.01, title="Sell Win Profit", minval=-1, maxval=1, group='Sell')
+//sell_win_cci = input.int(80, title="Sell CCI Win", minval=0, maxval=600, group='Sell')
 // Indicators
+
 rsi_fast = ta.rsi(close, 4)
 rsi_slow = ta.rsi(close, 20)
 rsi = ta.rsi(close, 14)
+
 sma_15 = ta.sma(close, 15)
 sma_15_b = sma_15 * buy_sma15_32
-//sma_15_a = sma_15 * (2 - buy_sma15_32)
 
 cci = ta.cci(close, 20)
 cti  =  correlationTrend(close, 20)
@@ -302,31 +304,37 @@ else
 
 // Plotting ...
 plotshape(buy_condition, style=shape.triangleup, location=location.belowbar, color=color.green, force_overlay=true)
+//plotshape(buy_condition_test, style=shape.xcross, location=location.abovebar, color=#af4c4c, force_overlay=true)
 
 plot(sma_15_b, color=#27a9b0, linewidth=3, title='sma_15_b', force_overlay=true)
+//plot(sma_15, color=color.new(color.purple, 0), linewidth=3, title='sma_15', force_overlay=true)
 
 plot(ma120, color=color.new(color.blue, 0), linewidth=3, title='ma120', force_overlay=true)
 plot(ma240, color=color.new(color.green, 0), linewidth=3, title='ma240', force_overlay=true)
+//plot(ma20, color=color.new(color.orange, 0), linewidth=4, title='ma20', force_overlay=true)
+//plot(ma50, color=color.new(color.blue, 0), linewidth=3, title='ma50', force_overlay=true)
+//plot(ma100, color=color.new(color.green, 0), linewidth=4, title='ma100', force_overlay=true)
+//plot(ma150, color=color.new(color.purple, 0), linewidth=3, title='ma150', force_overlay=true)
 
 var table profit_table = na
 if show_profit_panel
-    profit_table := table.new(position.top_right, 3, 10, border_color = color.green, border_width = 0, force_overlay=true)
-    table.cell(profit_table, 0, 0, "═════════════════════════════" + "\n" + "[MASTAAA] FREQ" + "\n" + "═════════════════════════════", bgcolor = color.rgb(0, 0, 0, 87), text_color = color.green, width = 12, height = 10, text_size = size.normal)
-    table.cell(profit_table, 1, 0, "", bgcolor = color.rgb(0, 0, 0, 87), text_color = color.green, width = 6, height = 3, text_size = size.normal)
+    profit_table := table.new(position.bottom_right, 3, 10, border_color = color.green, border_width = 0, force_overlay=true)
+    table.cell(profit_table, 0, 0, "═════════════════════════════" + "\n" + "[MASTAAA] FREQ" + "\n" + "═════════════════════════════", bgcolor = color.rgb(0, 0, 0, 75), text_color = color.green, width = 12, height = 10, text_size = size.normal)
+    table.cell(profit_table, 1, 0, "", bgcolor = color.rgb(0, 0, 0, 75), text_color = color.green, width = 6, height = 3, text_size = size.normal)
     table.merge_cells(profit_table, 0,0,1,0)
-    table.cell(profit_table, 0, 1, "First trade:", bgcolor = color.rgb(0, 0, 0, 87), text_color = color.green, width = 8, height = 3, text_size = size.normal, text_halign = text.align_left)
-    table.cell(profit_table, 1, 1, str.format("{0,date,long}", first_trade_date), bgcolor = color.rgb(0, 0, 0, 87), text_color = color.green, width = 12, height = 3, text_size = size.normal)
-    //table.cell(profit_table, 1, 1, str.tostring(first_trade_date), bgcolor = color.rgb(0, 0, 0, 87), text_color = color.green, width = 12, height = 3, text_size = size.normal)
-    table.cell(profit_table, 0, 2, "Total trades:", bgcolor = color.rgb(0, 0, 0, 87), text_color = color.green, width = 5, height = 3, text_size = size.normal, text_halign = text.align_left)
-    table.cell(profit_table, 1, 2, str.tostring(trade_count), bgcolor = color.rgb(0, 0, 0, 87), text_color = color.green, width = 5, height = 3, text_size = size.normal)
-    table.cell(profit_table, 0, 3, "Profit trades:", bgcolor = color.rgb(0, 0, 0, 87), text_color = color.green, width = 5, height = 3, text_size = size.normal, text_halign = text.align_left)
-    table.cell(profit_table, 1, 3, str.tostring(profit_trades), bgcolor = color.rgb(0, 0, 0, 87), text_color = color.green, width = 5, height = 3, text_size = size.normal)
-    table.cell(profit_table, 0, 4, "Loss trades:", bgcolor = color.rgb(0, 0, 0, 87), text_color = color.green, width = 5, height = 3, text_size = size.normal, text_halign = text.align_left)
-    table.cell(profit_table, 1, 4, str.tostring(loss_trades), bgcolor = color.rgb(0, 0, 0, 87), text_color = color.green, width = 5, height = 3, text_size = size.normal)
-    table.cell(profit_table, 0, 5, "Winrate:", bgcolor = color.rgb(0, 0, 0, 87), text_color = color.green, width = 5, height = 3, text_size = size.normal, text_halign = text.align_left)
-    table.cell(profit_table, 1, 5, str.tostring(RoundUp(profit_trades / trade_count * 100, 2)) + "%", bgcolor = color.rgb(0, 0, 0, 87), text_color = color.green, width = 5, height = 3, text_size = size.normal)
-    table.cell(profit_table, 0, 9, "═════════════════════════════" + "\n" + "💰 Profit: " + str.tostring(total_profit, "#.##") + "% 💰" + "\n" + "═════════════════════════════", bgcolor = color.rgb(0, 0, 0, 87), text_color = color.green, width = 5, height = 10, text_size = size.normal, text_halign = text.align_center, text_valign = text.align_top)
-    table.cell(profit_table, 1, 9,"", bgcolor = color.rgb(0, 0, 0, 87), text_color = color.green, width = 5, height = 3, text_size = size.normal)
+    table.cell(profit_table, 0, 1, "First trade:", bgcolor = color.rgb(0, 0, 0, 75), text_color = color.green, width = 8, height = 3, text_size = size.normal, text_halign = text.align_left)
+    table.cell(profit_table, 1, 1, str.format("{0,date,long}", first_trade_date), bgcolor = color.rgb(0, 0, 0, 75), text_color = color.green, width = 12, height = 3, text_size = size.normal)
+    //table.cell(profit_table, 1, 1, str.tostring(first_trade_date), bgcolor = color.rgb(0, 0, 0, 75), text_color = color.green, width = 12, height = 3, text_size = size.normal)
+    table.cell(profit_table, 0, 2, "Total trades:", bgcolor = color.rgb(0, 0, 0, 75), text_color = color.green, width = 5, height = 3, text_size = size.normal, text_halign = text.align_left)
+    table.cell(profit_table, 1, 2, str.tostring(trade_count), bgcolor = color.rgb(0, 0, 0, 75), text_color = color.green, width = 5, height = 3, text_size = size.normal)
+    table.cell(profit_table, 0, 3, "Profit trades:", bgcolor = color.rgb(0, 0, 0, 75), text_color = color.green, width = 5, height = 3, text_size = size.normal, text_halign = text.align_left)
+    table.cell(profit_table, 1, 3, str.tostring(profit_trades), bgcolor = color.rgb(0, 0, 0, 75), text_color = color.green, width = 5, height = 3, text_size = size.normal)
+    table.cell(profit_table, 0, 4, "Loss trades:", bgcolor = color.rgb(0, 0, 0, 75), text_color = color.green, width = 5, height = 3, text_size = size.normal, text_halign = text.align_left)
+    table.cell(profit_table, 1, 4, str.tostring(loss_trades), bgcolor = color.rgb(0, 0, 0, 75), text_color = color.green, width = 5, height = 3, text_size = size.normal)
+    table.cell(profit_table, 0, 5, "Winrate:", bgcolor = color.rgb(0, 0, 0, 75), text_color = color.green, width = 5, height = 3, text_size = size.normal, text_halign = text.align_left)
+    table.cell(profit_table, 1, 5, str.tostring(RoundUp(profit_trades / trade_count * 100, 2)) + "%", bgcolor = color.rgb(0, 0, 0, 75), text_color = color.green, width = 5, height = 3, text_size = size.normal)
+    table.cell(profit_table, 0, 9, "═════════════════════════════" + "\n" + "💰 Profit: " + str.tostring(total_profit, "#.##") + "% 💰" + "\n" + "═════════════════════════════", bgcolor = color.rgb(0, 0, 0, 75), text_color = color.green, width = 5, height = 10, text_size = size.normal, text_halign = text.align_center, text_valign = text.align_top)
+    table.cell(profit_table, 1, 9,"", bgcolor = color.rgb(0, 0, 0, 75), text_color = color.green, width = 5, height = 3, text_size = size.normal)
     table.merge_cells(profit_table, 0, 9, 1, 9)
 
 plot(show_indi ? rsi : na, color=#2195f384, linewidth=3, title='rsi')
@@ -334,31 +342,45 @@ plot(show_indi ? rsi_fast : na, color=#4caf4f7d, linewidth=3, title='rsi_fast')
 plot(show_indi ? rsi_slow : na, color=#9b27b07b, linewidth=3, title='rsi_slow')
 plot(show_indi ? fastk : na, color=#e8dc36, linewidth=3, title='fastk')
 
-plot(show_conds ? histb(0, 1) : na, "rsi_slow[0] < rsi_slow[1]", rsi_slow[0] < rsi_slow[1] ? GREEN_LIGHT : RED_LIGHT, histbase=histb(0, 0), style=plot.style_columns)
-plot(show_conds ? histb(1, 1) : na, "rsi_fast < buy_rsi_fast_32", rsi_fast < buy_rsi_fast_32 ? GREEN_LIGHT : RED_LIGHT, histbase=histb(1, 0), style=plot.style_columns)
-plot(show_conds ? histb(2, 1) : na, "rsi > buy_rsi_32", rsi > buy_rsi_32 ? GREEN_LIGHT : RED_LIGHT, histbase=histb(2, 0), style=plot.style_columns)
-plot(show_conds ? histb(3, 1) : na, "close < sma_15_b", close < sma_15_b ? GREEN_LIGHT : RED_LIGHT, histbase=histb(3, 0), style=plot.style_columns)
-plot(show_conds ? histb(4, 1) : na, "cti < buy_cti_32", cti < buy_cti_32 ? GREEN_LIGHT : RED_LIGHT, histbase=histb(4, 0), style=plot.style_columns)
-plot(show_conds ? 4.7 : na, "trenn line", color=entry_color, linewidth=2, offset=1)
-plot(show_conds ? histb(5, 1) : na, "fastk > sell_fastx", fastk > sell_fastx ? GREEN_LIGHT : RED_LIGHT, histbase=histb(5, 0), style=plot.style_columns)
+plot(show_conds ? histb(0, 1) : na, "fastk > sell_fastx", fastk > sell_fastx ? GREEN_LIGHT : RED_LIGHT, histbase=histb(0, 0), style=plot.style_columns)
+plot(show_conds ? show_buy_1 ? histb(1, 1) : na : na, "rsi_fast < buy_rsi_fast_32", rsi_fast < buy_rsi_fast_32 ? GREEN_LIGHT : RED_LIGHT, histbase=histb(1, 0), style=plot.style_columns)
+plot(show_conds ? show_buy_1 ? histb(2, 1) : na : na, "rsi > buy_rsi_32", rsi > buy_rsi_32 ? GREEN_LIGHT : RED_LIGHT, histbase=histb(2, 0), style=plot.style_columns)
+plot(show_conds ? show_buy_1 ? histb(3, 1) : na : na, "close < sma_15_b", close < sma_15_b ? GREEN_LIGHT : RED_LIGHT, histbase=histb(3, 0), style=plot.style_columns)
+plot(show_conds ? show_buy_1 ? histb(4, 1) : show_buy_new ? histb(4, 1) : na : na, "cti < buy_cti_32", cti < buy_cti_32 ? GREEN_LIGHT : RED_LIGHT, histbase=histb(4, 0), style=plot.style_columns)
+plot(show_conds ? show_buy_1 ? histb(5, 1) : show_buy_new ? histb(5, 1) : na : na, "rsi_slow[0] < rsi_slow[1]", rsi_slow[0] < rsi_slow[1] ? GREEN_LIGHT : RED_LIGHT, histbase=histb(5, 0), style=plot.style_columns)
+plot(show_conds ? show_buy_new ? histb(6, 1) : na : na, "rsi_fast < 34", rsi_fast < 34 ? GREEN_LIGHT : RED_LIGHT, histbase=histb(6, 0), style=plot.style_columns)
+plot(show_conds ? show_buy_new ? histb(7, 1) : na : na, "rsi > 28", rsi > 28 ? GREEN_LIGHT : RED_LIGHT, histbase=histb(7, 0), style=plot.style_columns)
+plot(show_conds ? show_buy_new ? histb(8, 1) : na : na, "close < sma_15 * 0.96", close < sma_15 * 0.96 ? GREEN_LIGHT : RED_LIGHT, histbase=histb(8, 0), style=plot.style_columns)
+plot(show_conds ? show_buy_1 ? 0.7 : na : na, "trenn line", color=entry_color, linewidth=2, offset=1)
+plot(show_conds ? show_buy_new ? 3.7 : na : na, "trenn line", color=entry_color, linewidth=2, offset=1)
+plot(show_conds ? show_buy_new ? 5.7 : na : na, "trenn line", color=entry_color, linewidth=2, offset=1)
 
 var table conds_table = na
 if show_conds
-    conds_table := table.new(position.middle_right, 1, 6, border_color = color.green, border_width = 0)
-    table.cell(conds_table, 0, 0, "fastk > " + str.tostring(sell_fastx), bgcolor = color.rgb(0, 0, 0, 50), height = 18, text_color = color.green, text_size = size.normal)
-    table.cell(conds_table, 0, 1, "cti < " + str.tostring(buy_cti_32), bgcolor = color.rgb(0, 0, 0, 50), height = 18, text_color = color.green, text_size = size.normal)
-    table.cell(conds_table, 0, 2, "close < sma_15_b", bgcolor = color.rgb(0, 0, 0, 50), height = 18, text_color = color.green, text_size = size.normal)
-    table.cell(conds_table, 0, 3, "rsi > " + str.tostring(buy_rsi_32), bgcolor = color.rgb(0, 0, 0, 50), height = 18, text_color = color.green, text_size = size.normal)
-    table.cell(conds_table, 0, 4, "rsi_fast < " + str.tostring(buy_rsi_fast_32), bgcolor = color.rgb(0, 0, 0, 50), height = 18, text_color = color.green, text_size = size.normal)
-    table.cell(conds_table, 0, 5, "rsi_slow < rsi_slow[1]", bgcolor = color.rgb(0, 0, 0, 50), height = 18, text_color = color.green, text_size = size.normal)
-
-
-//plot(sma_15, color=color.new(color.purple, 0), linewidth=3, title='sma_15', force_overlay=true)
-//plot(sma_15_a, color=#3027b0, linewidth=3, title='sma_15_b', force_overlay=true)
-
-//plotshape(buy_condition_test, style=shape.xcross, location=location.abovebar, color=#af4c4c, force_overlay=true)
-
-//plot(ma20, color=color.new(color.orange, 0), linewidth=4, title='ma20', force_overlay=true)
-//plot(ma50, color=color.new(color.blue, 0), linewidth=3, title='ma50', force_overlay=true)
-//plot(ma100, color=color.new(color.green, 0), linewidth=4, title='ma100', force_overlay=true)
-//plot(ma150, color=color.new(color.purple, 0), linewidth=3, title='ma150', force_overlay=true)
+    conds_table := table.new(position.middle_right, 1, show_buy_1 ? show_buy_new ? 9 : 6 : show_buy_new ? 6 : 1, border_color = color.green, border_width = 0)
+    if show_buy_1 and show_buy_new
+        table.cell(conds_table, 0, 0, "close < sma_15 * 0.96", bgcolor = color.rgb(0, 0, 0, 75), height = 12, text_color = color.green, text_size = size.small)
+        table.cell(conds_table, 0, 1, "rsi > 28", bgcolor = color.rgb(0, 0, 0, 75), height = 12, text_color = color.green, text_size = size.small)
+        table.cell(conds_table, 0, 2, "rsi_fast < 34", bgcolor = color.rgb(0, 0, 0, 75), height = 12, text_color = color.green, text_size = size.small)
+        table.cell(conds_table, 0, 3, "rsi_slow < rsi_slow[1]", bgcolor = color.rgb(0, 0, 0, 75), height = 12, text_color = color.green, text_size = size.small)
+        table.cell(conds_table, 0, 4, "cti < " + str.tostring(buy_cti_32), bgcolor = color.rgb(0, 0, 0, 75), height = 12, text_color = color.green, text_size = size.small)
+        table.cell(conds_table, 0, 5, "close < sma_15_b", bgcolor = color.rgb(0, 0, 0, 75), height = 12, text_color = color.green, text_size = size.small)
+        table.cell(conds_table, 0, 6, "rsi > " + str.tostring(buy_rsi_32), bgcolor = color.rgb(0, 0, 0, 75), height = 12, text_color = color.green, text_size = size.small)
+        table.cell(conds_table, 0, 7, "rsi_fast < " + str.tostring(buy_rsi_fast_32), bgcolor = color.rgb(0, 0, 0, 75), height = 12, text_color = color.green, text_size = size.small)
+        table.cell(conds_table, 0, 8, "fastk > " + str.tostring(sell_fastx), bgcolor = color.rgb(0, 0, 0, 75), height = 12, text_color = color.green, text_size = size.small)
+    else if show_buy_1
+        table.cell(conds_table, 0, 0, "rsi_slow < rsi_slow[1]", bgcolor = color.rgb(0, 0, 0, 75), height = 18, text_color = color.green, text_size = size.normal)
+        table.cell(conds_table, 0, 1, "cti < " + str.tostring(buy_cti_32), bgcolor = color.rgb(0, 0, 0, 75), height = 18, text_color = color.green, text_size = size.normal)
+        table.cell(conds_table, 0, 2, "close < sma_15_b", bgcolor = color.rgb(0, 0, 0, 75), height = 18, text_color = color.green, text_size = size.normal)
+        table.cell(conds_table, 0, 3, "rsi > " + str.tostring(buy_rsi_32), bgcolor = color.rgb(0, 0, 0, 75), height = 18, text_color = color.green, text_size = size.normal)
+        table.cell(conds_table, 0, 4, "rsi_fast < " + str.tostring(buy_rsi_fast_32), bgcolor = color.rgb(0, 0, 0, 75), height = 18, text_color = color.green, text_size = size.normal)
+        table.cell(conds_table, 0, 5, "fastk > " + str.tostring(sell_fastx), bgcolor = color.rgb(0, 0, 0, 75), height = 18, text_color = color.green, text_size = size.normal)
+    else if show_buy_new
+        table.cell(conds_table, 0, 0, "close < sma_15 * 0.96", bgcolor = color.rgb(0, 0, 0, 75), height = 18, text_color = color.green, text_size = size.normal)
+        table.cell(conds_table, 0, 1, "rsi > 28", bgcolor = color.rgb(0, 0, 0, 75), height = 18, text_color = color.green, text_size = size.normal)
+        table.cell(conds_table, 0, 2, "rsi_fast < 34", bgcolor = color.rgb(0, 0, 0, 75), height = 18, text_color = color.green, text_size = size.normal)
+        table.cell(conds_table, 0, 3, "rsi_slow < rsi_slow[1]", bgcolor = color.rgb(0, 0, 0, 75), height = 18, text_color = color.green, text_size = size.normal)
+        table.cell(conds_table, 0, 4, "cti < " + str.tostring(buy_cti_32), bgcolor = color.rgb(0, 0, 0, 75), height = 18, text_color = color.green, text_size = size.normal)
+        table.cell(conds_table, 0, 5, "fastk > " + str.tostring(sell_fastx), bgcolor = color.rgb(0, 0, 0, 75), height = 18, text_color = color.green, text_size = size.normal)
+    else
+        table.cell(conds_table, 0, 0, "fastk > " + str.tostring(sell_fastx), bgcolor = color.rgb(0, 0, 0, 75), height = 18, text_color = color.green, text_size = size.normal)

@@ -1,5 +1,25 @@
 # freqtrade-strategie
 
+## Technische Informationen
+
+### E0V1E Strategie
+
+Was hab ich genau an der Ursprünglichen strategie von ssssi geändert?
+
+1. In der custom_exit function ermittel ich den open_candle um den trade ggf. in TMP_HOLD auf zu nehmen. Mit open_candle ist der candle gemeint er zum Zeitpunkt des Kaufbefehles aktuell war.
+
+Das ist insofern nützlich wenn man den Bot restartet oder die config reloaded wird TMP_HOLD resettet & um fehlsignale zu vermeiden wird halt der open_candle überprüft und nicht der current_candle (welcher sowieso nur der last_candle, der geschlossen ist ... )
+
+2. Habe ich auch in der custom_exit function die ermittelung des "wirklichen" current_candle integriert. Damit ist der candle gemeint der momentan noch nicht geschlossen ist. 
+
+Den zusätzlichen candle nutzen wir nun um nun den slippage zu vermeiden, der alle 5 min durch die neuberechnung aller Coins entsteht. Indem 5 sek bevor die neuen candle data rein kommen (und somit freqtrade alles von neuem berechnet) fastk zu ermitteln und ggf. den market exit kurz vor candle close zu befehlen.
+
+Denn je nach Coin menge die ihr gleichzeitig beobachtet kann die Berechnung alle 5 min bis zu 30 sek in anspruch nehmen. (je nach system bestimmt auch länger ...)
+
+Der slippage wird dadurch von +30 nach candle close auf -5 sek vor next candle close reduziert. Was gerade bei den market orders um einiges genauer ist. Bzw. die exit rate viel näher an der erwarteten exit rate ist ... ;-)
+
+### Mir ist zudem aufgefallen wenn ich die E0V1E Strategie mit max_open_trades 1 anstatt 2 laufen lasse (stake_amount immernoch auf unlimited!) Dann erhöhe ich damit die profit ratio um ca. das 10x (man siehe den letzten backtest der unglaublich 100.000% profit in einem Jahr abwirft, hingegen max_open_trades 2 es nur auf ca. 8000% im selben zeitraum schafft ...)
+
 ## Backtest Results Information
 
 ### Die Backest's mit den Strategien: FakeoutStrategy & ElliotV8_original_ichiv3 sind komplett Falsch und sollten niemals im Live Trade Mode angewand werden!

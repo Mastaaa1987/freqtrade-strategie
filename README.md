@@ -38,6 +38,28 @@ Test 5 secondes :
 * 2024-11-24 (13) _ -81.663 USDT _ -81.74 USD _ -7.72%
 * 2024-11-23 (12) _ 68.532 USDT __ 68.60 USD ___ 6.93%
 
+### Heute noch nachträglich herein gekommen ...
+
+For me with your conf : 
+* Day ----- (count) ---- USDT --------- USD ------ Profit %
+* 2024-12-03 (10) _ 106.765 USDT _ 106.77 USD __ 12.00%
+* 2024-12-02 (6) __ -31.298 USDT _ -31.30 USD __ -3.40%
+* 2024-12-01 (2) __ -48.092 USDT _ -48.09 USD __ -4.96%
+* 2024-11-30 (10) __ 66.297 USDT __ 66.30 USD ___ 7.35%
+* 2024-11-29 (8) ___ -48.39 USDT _ -48.39 USD __ -5.09%
+* 2024-11-28 (6) ___ 17.443 USDT __ 17.44 USD ___ 1.87%
+* 2024-11-27 (9) ___ 41.786 USDT __ 41.79 USD ___ 4.69%
+
+And 5 seconds test : 
+* Day ----- (count) ---- USDT --------- USD ------ Profit %
+* 2024-12-03 (11) _ 101.925 USDT _ 101.86 USD ___ 8.96%
+* 2024-12-02 (5) ___ 25.712 USDT __ 25.70 USD ___ 2.31%
+* 2024-12-01 (3) __ -55.023 USDT _ -54.99 USD __ -4.72%
+* 2024-11-30 (11) __ 13.604 USDT __ 13.60 USD ___ 1.18%
+* 2024-11-29 (5) ___ 31.872 USDT __ 31.85 USD ___ 2.84%
+* 2024-11-28 (6) ___ 46.758 USDT __ 46.73 USD ___ 4.35%
+* 2024-11-27 (9) ___ 43.052 USDT __ 43.03 USD ___ 4.18%
+
 Wie man unschwer erkennen kann erzeugt die slippage funktion von mir an jedem Tag mehr Profite und teilweise sogar mehr Signale, das hängt damit zusammen das wenn der exit order 5 sec vor candle ende gegeben wird, der bot noch genug Zeit hat in einen anderen coin zu investieren der zufälligerweise noch einen buy befehl ist.
 
 (Dies wäre nicht mehr der Fall wenn der candle geschlossen worden wäre & dann erst den exit order gegeben hätten ... Weil wir dann von der Zeit her 5 min in der Zukunft wären, dem kommen wir ja mit unserer 5 sek funktion zuvor ;-)

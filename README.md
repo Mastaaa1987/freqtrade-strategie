@@ -21,25 +21,43 @@ Der slippage wird dadurch von +30 nach candle close auf -5 sek vor next candle c
 ### Hier mal ein paar tage mit 5 sec funktion & original E0V1E strategie mit den selben configs im direkt vergleich:
 
 Regular :
+
 Day (count)      USDT           USD          Profit %
+
 ---------------  -------------  -----------  ----------
+
 2024-11-29 (2)   39.026 USDT    39.03 USD    4.10%
+
 2024-11-28 (6)   17.443 USDT    17.44 USD    1.87%
+
 2024-11-27 (9)   41.786 USDT    41.79 USD    4.69%
+
 2024-11-26 (10)  -46.811 USDT   -46.81 USD   -4.99%
+
 2024-11-25 (14)  61.347 USDT    61.35 USD    6.99%
+
 2024-11-24 (12)  -139.507 USDT  -139.51 USD  -13.72%
+
 2024-11-23 (6)   23.405 USDT    23.40 USD    2.36%
 
 Test 5 secondes : 
+
 Day (count)      USDT          USD         Profit %
+
 ---------------  ------------  ----------  ----------
+
 2024-11-29 (1)   3.169 USDT    3.17 USD    0.28%
+
 2024-11-28 (6)   46.758 USDT   46.80 USD   4.35%
+
 2024-11-27 (9)   43.052 USDT   43.10 USD   4.17%
+
 2024-11-26 (10)  -21.676 USDT  -21.70 USD  -2.06%
+
 2024-11-25 (14)  78.415 USDT   78.49 USD   8.04%
+
 2024-11-24 (13)  -81.663 USDT  -81.74 USD  -7.72%
+
 2024-11-23 (12)  68.532 USDT   68.60 USD   6.93%
 
 ### Mir ist zudem aufgefallen wenn ich die E0V1E Strategie mit max_open_trades 1 anstatt 2 laufen lasse (stake_amount immernoch auf unlimited!) Dann erhöhe ich damit die profit ratio um ca. das 10x (man siehe den letzten backtest der unglaublich 100.000% profit in einem Jahr abwirft, hingegen max_open_trades 2 es nur auf ca. 8000% im selben zeitraum schafft ...)

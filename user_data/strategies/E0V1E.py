@@ -31,6 +31,7 @@ class E0V1E(IStrategy):
         'stoploss_on_exchange_interval': 60,
         'stoploss_on_exchange_market_ratio': 0.99
     }
+    cc = {}
 
     stoploss = -0.25
     trailing_stop = False
@@ -86,7 +87,7 @@ class E0V1E(IStrategy):
                 "method": "LowProfitPairs",
                 "lookback_period_candles": 60,
                 "trade_limit": 1,
-                "stop_duration": 60,
+                "stop_duration_candles": 60,
                 "required_profit": -0.05
             },
             {
@@ -105,6 +106,7 @@ class E0V1E(IStrategy):
             return -0.003
 
         return None
+
     def populate_indicators(self, dataframe: DataFrame, metadata: dict) -> DataFrame:
         # buy_1 indicators
         dataframe['sma_15'] = ta.SMA(dataframe, timeperiod=15)
@@ -166,7 +168,25 @@ class E0V1E(IStrategy):
 
         min_profit = trade.calc_profit_ratio(trade.min_rate)
 
-        # my add
+        # calculate the real current_candle that open ...
+        if self.config['runmode'].value in ('live', 'dry_run'):
+            state = self.cc
+            pc = state.get(trade.id, {'date': current_candle['date'], 'open': current_candle['close'], 'high': current_candle['close'], 'low': current_candle['close'], 'close': current_rate, 'volume': 0})
+            if current_candle['date'] != pc['date']:
+                pc['date'] = current_candle['date']
+                pc['high'] = current_candle['close']
+                pc['low'] = current_candle['close']
+                pc['open'] = current_candle['close']
+                pc['close'] = current_rate
+            if current_rate > pc['high']:
+                pc['high'] = current_rate
+            if current_rate < pc['low']:
+                pc['low'] = current_rate
+            if current_rate != pc['close']:
+                pc['close'] = current_rate
+
+            state[trade.id] = pc
+
         if trade.id not in TMP_HOLD:
             # looking for candle on opened the trade ... If the bot disconneted in trade, it protreced the Trade if is in TMP_HOLD @ trade start ...
             if len(dataframe.loc[dataframe['date'] < trade.open_date_utc]) > 0:
@@ -181,10 +201,23 @@ class E0V1E(IStrategy):
             if (trade.open_rate - current_candle["ma120"]) / trade.open_rate >= 0.1:
                 TMP_HOLD1.append(trade.id)
 
+        # reduce slippage in live mode ...
         if current_profit > 0:
-            if current_candle["fastk"] > self.sell_fastx.value:
-                # if slippage > 0:
-                return "fastk_profit_sell"
+            if self.config['runmode'].value in ('live', 'dry_run'):
+                if current_time > pc['date'] + timedelta(minutes=9) + timedelta(seconds=55):
+                    df = dataframe.copy()
+                    df = df._append(pc, ignore_index = True)
+                    stoch_fast = ta.STOCHF(df, 5, 3, 0, 3, 0)
+                    df['fastk'] = stoch_fast['fastk']
+                    cc = df.iloc[-1].squeeze()
+                    if cc["fastk"] > self.sell_fastx.value:
+                        return "fastk_profit_sell_2"
+                else:
+                    if current_candle["fastk"] > self.sell_fastx.value:
+                        return "fastk_profit_sell"
+            else:
+                if current_candle["fastk"] > self.sell_fastx.value:
+                    return "fastk_profit_sell"
 
         if min_profit <= -0.1:
             if current_profit > self.sell_loss_cci_profit.value:

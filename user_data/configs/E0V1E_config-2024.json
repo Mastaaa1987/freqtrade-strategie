@@ -1,5 +1,5 @@
 {
-  "max_open_trades": 2,
+  "max_open_trades": 1,
   "stake_currency": "USDT",
   "stake_amount": "unlimited",
   "tradable_balance_ratio": 0.99,
@@ -41,7 +41,7 @@
     },
     "ccxt_async_config": {
       "enableRateLimit": true,
-      "rateLimit": 50
+      "rateLimit": 250
     },
     "pair_whitelist":[
             "POL/USDT", "NEIRO/USDT", "LUMIA/USDT",
@@ -84,16 +84,16 @@
             ],
     "pair_blacklist": [
             "(BTCUSDT_.*|ETHUSDT_.*)",
-            "(GT|HT|BTC|ETH|BNB|VITE|DGB|NMR|LTC|EOS|DASH|DOT|FIL|ADA|GLM|BNT|ADX)/.*",
+            "(GT|HT|BTC|ETH|BNB|VITE|DF|NMR|LTC|EOS|DASH|DOT|FIL|ADA|GLM|BNT|ADX)/.*",
             "(WBTC|BSV|BTCDOM|DEFI)/.*",
             ".*(_PREMIUM|BEAR|BULL|HALF|HEDGE|DOWN|UP|[1235][SL])/.*",
             "(AUD|BRZ|CAD|CHF|EUR|GBP|HKD|IDRT|JPY|NGN|RUB|SGD|TRY|UAH|USD|ZAR|UST)/.*",
-            "(BUSD|USDT|DAI|PAX|PAXG|SUSD|TUSD|USDC|USDT|USTC|VAI|USDN|USDP|FDUSD)/.*",
-            "(WBETH|WRX|XVS|SOL)/.*",
-            "(ZEN|YFI|XTZ|XNO|XLM|XEC|WIN|TWT|TRX|STG|SNX|SAND|RUNE|RIF|REQ|RDNT|QNT|POWR|POND|PDA|OXT|C98|COMP|DCR|FIRO|FLM|FLOW|GFT|HBAR|IRIS)/.*",
+            "(BUSD|USDT|DAI|PAX|PAXG|SUSD|TUSD|USTC|USDC|USDT|VAI|USDN|USDP|FDUSD)/.*",
+            "(WBETH|WRX|XVS|KLAY|KP3R|MATIC|OOKI|ORN|UNFI|SOL|BEL)/.*",
+            "(ZEN|YFI|XTZ|XNO|XLM|XEC|WIN|TWT|TRX|STG|SNX|SAND|RUNE|RIF|REQ|RDNT|POWR|POND|PDA|OXT|C98|COMP|DCR|FIRO|FLM|FLOW|GFT|IRIS)/.*",
             "(NKN|NEXO|KLAY|JST|IOST|ENJ|EGLD|DYDX|DENT|CVX|CHZ|BTTC|BSW|BNB|BAND|BAL|AVAX|AMB|AEUR|AERGO|AAVE|KDA|KNC|KSM|LIT|LSK|NEO|OAX|OGN|QKC)/.*",
-            "(WBETH|WRX|XVS|SOL|ASTR|ATM|BAT|IMX|LQTY|ZIL|WOO|SCRT|NEAR|ACA|AGLD|AI|STRAX|SFP|QTUM|PUNDIX|POLYX|ONT|ONG|OMNI)/.*",
-            "(XVG|VTHO|VOXEL|VANRY|T|SUSHI|SNT|RPL|RLC|QI|MTL|MKR|MANTA|LTO|LRC|HFT|GHST|GAS|FXS|CVC|COS|COMBO|BLZ|AUCTION)/.*"
+            "(WBETH|WRX|XVS|SOL|ASTR|ATM|BAT|IMX|LQTY|ZIL|WOO|NEAR|AGLD|AI|STRAX|SFP|QTUM|PUNDIX|POLYX|ONT|ONG|OMNI)/.*",
+            "(XVG|VOXEL|VANRY|T|SUSHI|SNT|RPL|RLC|QI|MTL|MKR|MANTA|LTO|LRC|HFT|GHST|GAS|FXS|CVC|COS|COMBO|BLZ|AUCTION)/.*"
         ],
   },
   "pairlists": [
@@ -155,11 +155,12 @@
       ],
       [
         "/status table",
-        "/performance"
+        "/performance",
+        "/logs"
       ],
       [
-        "/logs",
-        "/whitelist"
+        "/stopbuy",
+        "/reload_config"
       ]
     ],
    "notification_settings": {

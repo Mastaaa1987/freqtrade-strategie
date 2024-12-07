@@ -109,7 +109,7 @@ RoundUp(number, decimals) =>
 
 // Inputs
 use_trailing_stop = input.bool(false, title='Use Trailing Stop', group='Bools', inline='1')
-use_stoploss = input.bool(true, title='Use Stoploss', group='Bools', inline='1')
+use_stoploss = input.bool(false, title='Use Stoploss', group='Bools', inline='1')
 show_conds = input.bool(true, title='Show Conditions', group='Bools', inline='2')
 show_indi = input.bool(false, title='Show Indicators', group='Bools', inline='2')
 show_buy_1 = input.bool(true, title='Show Buy_1', group='Bools', inline='3')

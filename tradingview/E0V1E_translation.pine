@@ -118,7 +118,7 @@ show_profit_panel = input.bool(true, title='Show Profit Panel', group='Bools', i
 //Protection
 stoploss = input.float(-0.25, title="Stoploss", minval=-1, maxval=0, group='Protection')
 trailing_stop = input.float(0.03, title="Traling Stop", minval=0, maxval=1, group='Protection')
-stop_duration_candles = input.int(18, title="CooldownPeriod", minval=0, group='Protection')
+stop_duration_candles = input.int(5, title="CooldownPeriod", minval=0, group='Protection')
 // Buy
 buy_rsi_fast_32 = input.int(40, title="Buy RSI Fast", minval=20, maxval=70, group='Buy')
 buy_rsi_32 = input.int(42, title="Buy RSI", minval=15, maxval=50, group='Buy')

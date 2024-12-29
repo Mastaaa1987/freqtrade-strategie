@@ -8,6 +8,10 @@ Momentan gibt's noch nicht viel zu sagen außer wenn ihr auch gemerkt habt das d
 
 Ich werde bei Zeiten ein paar dry_run Test's Ergebnisse posten.
 
+### KamaFama_2
+
+Hier habe ich den fastk profit sell von E0V1E der Strategie hinzugefügt & die sell condition raus genommen. Das hat zu folge das die win ratio auf ~96-98% gepusht wird.
+
 ### E0V1E Strategie
 
 Was hab ich genau an der Ursprünglichen strategie von ssssi geändert?

@@ -19,19 +19,7 @@ from functools import reduce
 
 pd.options.mode.chained_assignment = None  # default='warn'
 
-# @Rallipanos # changes by Mastaaa1987
-
-# Buy hyperspace params:
-buy_params = {
-        "base_nb_candles_buy": 12,
-    }
-
-# Sell hyperspace params:
-sell_params = {
-        "base_nb_candles_sell": 22,
-        "high_offset": 1.008,
-        "high_offset_2": 1.016,
-    }
+# ------- Strategie by Mastaaa1987
 
 def williams_r(dataframe: DataFrame, period: int = 14) -> Series:
     """Williams %R, or just %R, is a technical analysis oscillator showing the current closing price in relation to the high and low
@@ -52,19 +40,9 @@ def williams_r(dataframe: DataFrame, period: int = 14) -> Series:
     return WR * -100
 
 
-class KamaFama(IStrategy):
+class KamaFama_2(IStrategy):
     INTERFACE_VERSION = 2
-    """
-    # ROI table:
-    minimal_roi = {
-        "0": 0.08,
-        "20": 0.04,
-        "40": 0.032,
-        "87": 0.016,
-        "201": 0,
-        "202": -1
-    }
-    """
+
     @property
     def protections(self):
         return [
@@ -84,17 +62,12 @@ class KamaFama(IStrategy):
     minimal_roi = {
         "0": 1
     }
+    cc = {}
 
     # Stoploss:
     stoploss = -0.25
 
-    # Buy Params
-    base_nb_candles_buy = IntParameter(5, 80, default=buy_params['base_nb_candles_buy'], space='buy', optimize=True)
-    #low_offset = DecimalParameter(0.9, 0.99, default=buy_params['low_offset'], space='buy', optimize=True)
     # Sell Params
-    base_nb_candles_sell = IntParameter(5, 80, default=sell_params['base_nb_candles_sell'], space='sell', optimize=True)
-    high_offset = DecimalParameter(0.95, 1.1, default=sell_params['high_offset'], space='sell', optimize=True)
-    high_offset_2 = DecimalParameter(0.99, 1.5, default=sell_params['high_offset_2'], space='sell', optimize=True)
     sell_fastx = IntParameter(50, 100, default=84, space='sell', optimize=True)
 
     # Trailing stop:
@@ -106,8 +79,8 @@ class KamaFama(IStrategy):
     use_custom_stoploss = True
 
     order_types = {
-        'entry': 'limit',
-        'exit': 'limit',
+        'entry': 'market',
+        'exit': 'market',
         'emergency_exit': 'market',
         'force_entry': 'market',
         'force_exit': "market",
@@ -123,8 +96,6 @@ class KamaFama(IStrategy):
         'exit': 'gtc'
     }
 
-    cc = {}
-
     # Optimal timeframe for the strategy
     timeframe = '5m'
 
@@ -133,15 +104,13 @@ class KamaFama(IStrategy):
 
     plot_config = {
         'main_plot': {
-            'ma_buy': {'color': '#27d81b'},
-            'ma_sell': {'color': '#d0da3e'},
-            'hma_50': {'color': '#3edad8'}
+            "mama": {'color': '#d0da3e'},
+            "fama": {'color': '#da3eb8'},
+            "kama": {'color': '#3edad8'}
         },
         "subplots": {
-            "FKMAMA": {
-                "mama": {'color': '#d0da3e'},
-                "fama": {'color': '#da3eb8'},
-                "kama": {'color': '#3edad8'}
+            "fastk": {
+                "fastk": {'color': '#da3e3e'}
             },
             "cond": {
                 "change": {'color': '#da3e3e'}
@@ -161,17 +130,6 @@ class KamaFama(IStrategy):
         # PCT CHANGE
         dataframe['change'] = 100 / dataframe['open'] * dataframe['close'] - 100
 
-        # Calculate all ma_buy values
-        for val in self.base_nb_candles_buy.range:
-            dataframe['ma_buy'] = ta.EMA(dataframe, timeperiod=val)
-
-        # Calculate all ma_sell values
-        for val in self.base_nb_candles_sell.range:
-            dataframe['ma_sell'] = ta.EMA(dataframe, timeperiod=val)
-
-        # HMA
-        dataframe['hma_50'] = qtpylib.hull_moving_average(dataframe['close'], window=50)
-
         # MAMA, FAMA, KAMA
         dataframe['hl2'] = (dataframe['high'] + dataframe['low']) / 2
         dataframe['mama'], dataframe['fama'] = ta.MAMA(dataframe['hl2'], 0.25, 0.025)
@@ -186,9 +144,6 @@ class KamaFama(IStrategy):
         dataframe['fastk'] = stoch_fast['fastk']
 
         # RSI
-        dataframe['rsi'] = ta.RSI(dataframe, timeperiod=14)
-        dataframe['rsi_fast'] = ta.RSI(dataframe, timeperiod=4)
-        dataframe['rsi_slow'] = ta.RSI(dataframe, timeperiod=20)
         dataframe['rsi_84'] = ta.RSI(dataframe, timeperiod=84)
         dataframe['rsi_112'] = ta.RSI(dataframe, timeperiod=112)
 
@@ -221,8 +176,6 @@ class KamaFama(IStrategy):
         return dataframe
 
     def populate_exit_trend(self, dataframe: DataFrame, metadata: dict) -> DataFrame:
-        conditions = []
-        dataframe.loc[:, 'exit_tag'] = ''
         dataframe.loc[:, 'exit_long'] = 0
 
         return dataframe

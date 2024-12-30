@@ -12,6 +12,12 @@ Ich werde bei Zeiten ein paar dry_run Test's Ergebnisse posten.
 
 Hier habe ich den fastk profit sell von E0V1E der Strategie hinzugefügt & die sell condition raus genommen. Das hat zu folge das die win ratio auf ~96-98% gepusht wird.
 
+So die ersten Erfahrungswerte mit KamaFama_2 sind doch recht prositiv. Im gegensatz zu E0V1E (wo der buy in immer nach einem sehr hohen swing high getätigt wird) ist der buy in meist bedeutend "smoother" an gesetzt. Was bedeutet das der Preis meist nicht so eine Achterbahn Fahrt ist wie bei E0V1E. (Soll heißen das er natürlich nach buy in der preis noch weiter fällt aber dann vill nur so bis -2% und dann smooth in die profit range geht ...)
+
+Im Moment scheint sich die win ratio (aus dem Backtest's) von ~95-98% wirklich im dry_run bewahrheitet. (Viele kleine Gewinne, welche sich trotz allem immer schön summieren zu tages ende ...)
+
+Die dry_run Stat's folgen bald ...
+
 ### E0V1E Strategie
 
 Was hab ich genau an der Ursprünglichen strategie von ssssi geändert?

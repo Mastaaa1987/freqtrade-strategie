@@ -94,7 +94,7 @@ FakeoutStrategy schaut in die Zukunft was im Live Mode niemals funktionieren wir
 
 ### Die NASOSv5_mod3 Signale lassen sich im prinzip gut mit denen von E0V1E ergänzen da das ewo_1 signal zu den buy_1 signalen viele zusätzliche erzeugt ! Ich bleibe aber Safe und nutze nur buy_1 von E0V1E, welche am 14-15.11.2024 an zwei Tagen 20% gewinne erzeugt hat ;-)
 
-![LiveTrade Result](https://raw.githubusercontent.com/Mastaaa1987/freqtrade-strategie/refs/heads/main/user_data/E0V1E_LiveRun_and_backtest_results-2024-11-14_2024-11-16.png)
+![LiveTrade Result](https://raw.githubusercontent.com/Mastaaa1987/freqtrade-strategie/refs/heads/main/E0V1E/E0V1E_LiveRun_and_backtest_results-2024-11-14_2024-11-16.png)
 
 ### Background Infos:
 
@@ -108,7 +108,7 @@ Alle trades die der bot in real live abgeschlossen hat sind zu 90% der Fälle so
 
 Die Daten aus dem Bild sind von 2 Tagen und haben insgesamt 20% Profit in diesen erzeugt ....!
 
-![LiveTrade Result 2](https://raw.githubusercontent.com/Mastaaa1987/freqtrade-strategie/refs/heads/main/user_data/E0V1E_LiveRun_and_backtest_results-2024-11-16_2024-11-22.png)
+![LiveTrade Result 2](https://raw.githubusercontent.com/Mastaaa1987/freqtrade-strategie/refs/heads/main/E0V1E/E0V1E_LiveRun_and_backtest_results-2024-11-16_2024-11-22.png)
 
 Hier nun die nächsten tage im Live Trade ...
 

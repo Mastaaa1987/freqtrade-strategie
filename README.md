@@ -16,7 +16,16 @@ So die ersten Erfahrungswerte mit KamaFama_2 sind doch recht prositiv. Im gegens
 
 Im Moment scheint sich die win ratio (aus dem Backtest's) von ~95-98% wirklich im dry_run bewahrheitet. (Viele kleine Gewinne, welche sich trotz allem immer schön summieren zu tages ende ...)
 
-Die dry_run Stat's folgen bald ...
+Hier der erste Timebrakedown:
+
+* Day ----- (count) ---- USDT ------- Profit %
+* 2025-01-05 (2) ______ 2,261 ________ 1.47%
+* 2025-01-04 (1) ______ 0,413 ________ 0.27%
+* 2025-01-03 (1) ______ 6,797 ________ 0.36%
+* 2025-01-02 (1) ______ 6,484 ________ 0.34%
+* 2025-01-01 (1) ______ 7,351 ________ 0.39%
+* 2024-12-31 (12) _____ 11,835 _______ 5.78%
+* 2024-12-30 (7) ______ 10,698 _______ 5.33%
 
 ### E0V1E Strategie
 
@@ -35,7 +44,6 @@ Denn je nach Coin menge die ihr gleichzeitig beobachtet kann die Berechnung alle
 Der slippage wird dadurch von +30 nach candle close auf -5 sek vor next candle close reduziert. Was gerade bei den market orders um einiges genauer ist. Bzw. die exit rate viel näher an der erwarteten exit rate ist ... ;-)
 
 ### Hier mal ein paar tage mit 5 sec funktion & original E0V1E strategie mit den selben configs im direkt vergleich:
-
 Regular :
 * Day ----- (count) ---- USDT --------- USD ------- Profit %
 * 2024-11-28 (6) __ 17.443 USDT ___ 17.44 USD ___ 1.87%

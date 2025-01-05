@@ -1,7 +1,8 @@
 // This Pine Script™ code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
-// © Mastaaa1987
+// © MasterX1987
 
 //@version=6
+//strategy("Freqtrade Strategy Translation", overlay=true, max_lines_count = 500, max_labels_count = 500, max_bars_back = 1)
 indicator('KamaFama', max_lines_count = 500, max_labels_count = 500, max_bars_back = 500)
 
 color GREEN = #26a69a
@@ -85,6 +86,10 @@ var label conds_label_2 = na
 var string conds_text = na
 
 var float PI = 2 * math.asin(1)
+
+histb(x, t) =>
+    h = t == 0 ? x == 0 ? 0.0 : x == 1 ? 1.0 : x == 2 ? 2.0 : x == 3 ? 3.0 : x == 4 ? 4.0 : x == 5 ? 5.0 : x == 6 ? 6.0 : x == 7 ? 7.0 : x == 8 ? 8.0 : x == 9 ? 9.0 : x == 10 ? 10.0 : 11.0 : x == 0 ? 0.5 : x == 1 ? 1.5 : x == 2 ? 2.5 : x == 3 ? 3.5 : x == 4 ? 4.5 : x == 5 ? 5.5 : x == 6 ? 6.5 : x == 7 ? 7.5 : x == 8 ? 8.5 : x == 9 ? 9.5 : x == 10 ? 10.5 : 11.5
+    h
 
 correlationTrend(Series_1, Period) => // Correlation Trend Function
     period = ta.highest(int(Period), 2)
@@ -180,6 +185,8 @@ use_trailing_stop = input.bool(true, title = 'Use Trailing Stop', group = 'Bools
 use_stoploss = input.bool(true, title = 'Use Stoploss', group = 'Bools', inline = '1')
 show_profit_panel = input.bool(true, title = 'Show Profit Panel', group = 'Bools', inline = '2')
 show_stoploss = input.bool(true, title = 'Show Stoploss', group = 'Bools', inline = '2')
+show_conds = input.bool(true, title = 'Show Conditions', group = 'Bools', inline = '3')
+show_indi = input.bool(false, title = 'Show Indicators', group = 'Bools', inline = '3')
 //Protection
 stoploss = input.float(-0.25, title = 'Stoploss', minval = -1, maxval = 0, group = 'Protection')
 trailing_stop = input.float(0.05, title = 'Traling Stop', minval = 0, maxval = 1, group = 'Protection')
@@ -208,7 +215,7 @@ mama := alpha * fmama_src + (1 - alpha) * nz(mama[1])
 fama = 0.0
 fama := alpha2 * mama + (1 - alpha2) * nz(fama[1])
 mama_diff = 0.0
-mama_diff := (mama - fama) / hl2
+mama_diff := (mama - fama) / fmama_src
 // Kama
 mom = math.abs(ta.change(kama_src, kama_length))
 volatility = math.sum(math.abs(ta.change(kama_src)), kama_length)
@@ -245,28 +252,22 @@ if not na(trade)
         entry_line := line.new(x1 = trade.start_bar_index, y1 = trade.entry_price, x2 = bar_index, y2 = trade.entry_price, color = entry_color, style = line.style_solid, width = 2, force_overlay = true)
         if use_stoploss and show_stoploss
             sl_line := line.new(x1 = trade.start_bar_index, y1 = trade.sl_price, x2 = bar_index, y2 = trade.sl_price, color = sl_color, style = line_style, width = 2, force_overlay = true)
-            sl_line
         if use_trailing_stop
             tp_line := line.new(x1 = trade.start_bar_index, y1 = trade.tp_price, x2 = bar_index, y2 = trade.tp_price, color = tp_color, style = line_style, width = 2, force_overlay = true)
             lable_at_signal := label.new(bar_index, trade.tp_price * 1.09, '', style = label.style_label_center, textcolor = color.white, force_overlay = true)
-            lable_at_signal
         if not use_trailing_stop
             lable_at_signal := label.new(bar_index, trade.entry_price * 1.1, '', style = label.style_label_center, textcolor = color.white, force_overlay = true)
-            lable_at_signal
 
 
     if low < trade.min_rate and bar_index != trade.start_bar_index
         trade.min_rate := low
         trade.min_profit := (100 / trade.open_rate * trade.min_rate - 100) / 100
-        trade.min_profit
     if use_trailing_stop
         if close >= trade.tp_price and not trade.tp_hit
             trade.tp_hit := true
-            trade.tp_hit
     if use_stoploss
         if close <= trade.sl_price and bar_index != trade.start_bar_index and not trade.sl_hit
             trade.sl_hit := true
-            trade.sl_hit
     if not trade.is_closed
         if use_trailing_stop
             line.set_xy1(tp_line, trade.start_bar_index, trade.tp_price)
@@ -313,7 +314,6 @@ if not na(trade)
         if use_trailing_stop
             line.delete(tp_line)
         trade := na
-        trade
 
 if na(trade)
     if buy_condition and bar_index >= last_trade_bar_index + stop_duration_candles
@@ -334,53 +334,42 @@ if na(trade)
         trade.timestamp := timestamp(year, month, dayofmonth, hour, minute)
         if use_stoploss
             trade.sl_price := close + close * stoploss
-            trade.sl_price
         if use_trailing_stop
             trade.tp_price := close + close * trailing_stop
-            trade.tp_price
 else
     trade.count := trade.count + 1
     trade.profit := 100 / trade.entry_price * close - 100
     trade.current_profit := trade.profit / 100
-    if trade.current_profit > 0 and fastk > sell_fastx
+    if trade.current_profit > 0 and fastk >= sell_fastx
         trade.exit := true
         trade.exit_tag := 'fastk_profit_sell'
-        trade.exit_tag
     if use_stoploss
         if low <= trade.sl_price
             trade.exit := true
             trade.exit_tag := 'stoploss'
             trade.profit := 100 / trade.entry_price * trade.sl_price - 100
             trade.current_profit := trade.profit / 100
-            trade.current_profit
     if use_trailing_stop
         if close >= trade.tp_price
             trade.exit := true
             trade.exit_tag := 'trailing_stop'
             trade.profit := 100 / trade.entry_price * trade.tp_price - 100
             trade.current_profit := trade.profit / 100
-            trade.current_profit
     if trade.exit
         trade_count := trade_count + 1
         if trade.profit > 0
             profit_trades := profit_trades + 1
-            profit_trades
         else
             loss_trades := loss_trades + 1
-            loss_trades
         total_profit := total_profit + trade.profit
         if trade.exit_tag == 'stoploss'
             trade.close_price := trade.sl_price
-            trade.close_price
         else if trade.exit_tag == 'trailing_stop'
             trade.close_price := trade.tp_price
-            trade.close_price
         else
             trade.close_price := close
-            trade.close_price
         trade.is_closed := true
         last_trade_bar_index := bar_index
-        last_trade_bar_index
 
 // Plotting ...
 plotshape(buy_condition, style = shape.triangleup, location = location.belowbar, color = color.green, force_overlay = true)
@@ -388,7 +377,31 @@ plotshape(buy_condition, style = shape.triangleup, location = location.belowbar,
 plot(mama, title='MAMA', linewidth=3, color=#58a74e, force_overlay=true)
 plot(fama, title='FAMA', linewidth=3, color=#f6b26b, force_overlay=true)
 plot(kama, title='KAMA', linewidth=3, color=#6d1e7f, force_overlay=true)
-plot(fastk, title='FastK', linewidth=2, color=#f6b26b)
+plot(show_indi ? fastk : na, title='fastk', linewidth=2, color=#95f66b)
+plot(show_indi ? 84 : na, title='HLine', linewidth=1, color=#b1aaa5, style = plot.style_circles)
+
+plot(show_conds ? histb(0, 1) : na, 'kama > fama', kama > fama ? GREEN_LIGHT : RED_LIGHT, histbase = histb(0, 0), style = plot.style_columns)
+plot(show_conds ? histb(1, 1) : na, 'fama > mama * 0.981', fama > mama * 0.981 ? GREEN_LIGHT : RED_LIGHT, histbase = histb(1, 0), style = plot.style_columns)
+plot(show_conds ? histb(2, 1) : na, 'Williams_%R < -61.3', r_14 < -61.3 ? GREEN_LIGHT : RED_LIGHT, histbase = histb(2, 0), style = plot.style_columns)
+plot(show_conds ? histb(3, 1) : na, 'mama_diff < -0.025', mama_diff < -0.025 ? GREEN_LIGHT : RED_LIGHT, histbase = histb(3, 0), style = plot.style_columns)
+plot(show_conds ? histb(4, 1) : na, 'cti < -0.715', cti < -0.715 ? GREEN_LIGHT : RED_LIGHT, histbase = histb(4, 0), style = plot.style_columns)
+plot(show_conds ? histb(5, 1) : na, 'close[48].max > close * 1.05', c48 > close * 1.05 ? GREEN_LIGHT : RED_LIGHT, histbase = histb(5, 0), style = plot.style_columns)
+plot(show_conds ? histb(6, 1) : na, 'close[288].max > close * 1.125', c288 > close * 1.125 ? GREEN_LIGHT : RED_LIGHT, histbase = histb(6, 0), style = plot.style_columns)
+plot(show_conds ? histb(7, 1) : na, 'rsi_84 < 60', rsi_84 < 60 ? GREEN_LIGHT : RED_LIGHT, histbase = histb(7, 0), style = plot.style_columns)
+plot(show_conds ? histb(8, 1) : na, 'rsi_112 < 60', rsi_112 < 60 ? GREEN_LIGHT : RED_LIGHT, histbase = histb(8, 0), style = plot.style_columns)
+
+var table conds_table = na
+if show_conds
+    conds_table := table.new(position.middle_right, 1, 9, border_color = color.green, border_width = 0)
+    table.cell(conds_table, 0, 0, 'rsi_112 < 60', bgcolor = color.rgb(0, 0, 0, 75), height = 12, text_color = color.green, text_size = size.small)
+    table.cell(conds_table, 0, 1, 'rsi_84 < 60', bgcolor = color.rgb(0, 0, 0, 75), height = 12, text_color = color.green, text_size = size.small)
+    table.cell(conds_table, 0, 2, 'close[288].max > close * 1.125', bgcolor = color.rgb(0, 0, 0, 75), height = 12, text_color = color.green, text_size = size.small)
+    table.cell(conds_table, 0, 3, 'close[48].max > close * 1.05', bgcolor = color.rgb(0, 0, 0, 75), height = 12, text_color = color.green, text_size = size.small)
+    table.cell(conds_table, 0, 4, 'cti < -0.715', bgcolor = color.rgb(0, 0, 0, 75), height = 12, text_color = color.green, text_size = size.small)
+    table.cell(conds_table, 0, 5, 'mama_diff < -0.025', bgcolor = color.rgb(0, 0, 0, 75), height = 12, text_color = color.green, text_size = size.small)
+    table.cell(conds_table, 0, 6, 'Williams_%R < -61.3', bgcolor = color.rgb(0, 0, 0, 75), height = 12, text_color = color.green, text_size = size.small)
+    table.cell(conds_table, 0, 7, 'fama > mama * 0.981', bgcolor = color.rgb(0, 0, 0, 75), height = 12, text_color = color.green, text_size = size.small)
+    table.cell(conds_table, 0, 8, 'kama > fama', bgcolor = color.rgb(0, 0, 0, 75), height = 12, text_color = color.green, text_size = size.small)
 
 var table profit_table = na
 if show_profit_panel

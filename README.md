@@ -29,7 +29,7 @@ Hier die erste Woche im Time brakedown:
 
 25 Trades in 7 Tagen, wovon alle 25 Profit Trades sind (welche insgesamt 13,94% Gewinn abgeworfen haben!).
 
-Nun denn im die erwartete win ratio zu halten, müssten noch einmal 25 Trades Profitabel werden.
+Nun denn um die erwartete win ratio zu halten, müssten noch einmal 25 Trades Profit ab werfen ...
 
 Wir werden sehen ;-)
 

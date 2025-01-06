@@ -16,7 +16,7 @@ So die ersten Erfahrungswerte mit KamaFama_2 sind doch recht prositiv. Im gegens
 
 Im Moment scheint sich die win ratio (aus dem Backtest's) von ~95-98% wirklich im dry_run bewahrheitet. (Viele kleine Gewinne, welche sich trotz allem immer schön summieren zu tages ende ...)
 
-Hier der erste Timebrakedown:
+Hier die erste Woche im Time brakedown:
 
 * Day ----- (count) ---- USDT ------- Profit %
 * 2025-01-05 (2) ______ 2,261 ________ 1.47%
@@ -26,6 +26,10 @@ Hier der erste Timebrakedown:
 * 2025-01-01 (1) ______ 7,351 ________ 0.39%
 * 2024-12-31 (12) _____ 11,835 _______ 5.78%
 * 2024-12-30 (7) ______ 10,698 _______ 5.33%
+
+25 Trades in 7 Tagen, wovon alle 25 Profit Trades sind (welche insgesamt 13,94% Gewinn abgeworfen haben!).
+
+Nun denn im die erwartete win ratio zu halten, müssten noch einmal 25 Trades Profitabel werden. Wir werden sehen ;-)
 
 ### E0V1E Strategie
 

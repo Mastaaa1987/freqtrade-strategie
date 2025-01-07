@@ -15,6 +15,8 @@ Im Moment scheint sich die win ratio (aus dem Backtest's) von ~95-98% wirklich i
 Hier die erste Woche im Time brakedown:
 
 * Day ----- (count) ---- USDT ------- Profit %
+* 2025-01-07 (3) ______ 3,155 ________ 1.98%
+* 2025-01-06 (3) ______ 4,247 ________ 2.74%
 * 2025-01-05 (2) ______ 2,261 ________ 1.47%
 * 2025-01-04 (1) ______ 0,413 ________ 0.27%
 * 2025-01-03 (1) ______ 6,797 ________ 0.36%

@@ -12,11 +12,19 @@ So die ersten Erfahrungswerte mit KamaFama_2 sind doch recht prositiv. Im gegens
 
 Im Moment scheint sich die win ratio (aus dem Backtest's) von ~95-98% wirklich im dry_run bewahrheitet. (Viele kleine Gewinne, welche sich trotz allem immer schön summieren zu tages ende ...)
 
-Hier die erste Woche im Time brakedown:
+Hier meine live_trade dayli results für den Monat Januar 2025:
+
+<details>
+<summary>>>Klick HIER für Content.<<</summary>
 
 * Day ----- (count) ---- USDT ------- Profit %
+* 2025-01-27 (8) ______ 13,35 ________ 4.11%
+* 2025-01-26 (1) ______ 0,268 ________ 0.08%
+* 2025-01-25 (1) ______ 0,613 ________ 0.19%
+* 2025-01-24 (0) ______ 0 ____________ 0%
+* 2025-01-23 (0) ______ 0 ____________ 0%
 * 2025-01-22 (2) ______ 5,083 ________ 3.55%
-* 2025-01-21 (0) ______ 0,266 ________ 0.19%
+* 2025-01-21 (1) ______ 0,266 ________ 0.19%
 * 2025-01-20 (0) ______ 0 ____________ 0%
 * 2025-01-19 (5) _____ -11,09 _______ -6.35%
 * 2025-01-18 (7) _____ -10,43 _______ -5.63%
@@ -40,8 +48,5 @@ Hier die erste Woche im Time brakedown:
 * 2024-12-31 (12) _____ 11,835 _______ 5.78%
 * 2024-12-30 (7) ______ 10,698 _______ 5.33%
 
-25 Trades in 7 Tagen, wovon alle 25 Profit Trades sind (welche insgesamt 13,94% Gewinn abgeworfen haben!).
+</details>
 
-Nun denn um die erwartete win ratio zu halten, müssten noch einmal 25 Trades Profit ab werfen ...
-
-Wir werden sehen ;-)

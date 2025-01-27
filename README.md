@@ -12,7 +12,7 @@
 
 ### Also kann ich jedem nur KamaFama_2 an's Herz legen. (Ich Trade mit real Money & dieser Strategie ...)
 
-Hier meine live_trade dayli results für den Monat Januar 2025:
+### Hier meine live_trade dayli results für den Monat Januar 2025:
 
 <details>
 <summary>>>Klick HIER für Content.<<</summary>

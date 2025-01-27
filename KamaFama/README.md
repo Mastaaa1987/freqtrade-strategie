@@ -18,7 +18,7 @@ Hier meine live_trade dayli results für den Monat Januar 2025:
 <summary>>>Klick HIER für Content.<<</summary>
 
 * Day ----- (count) ---- USDT ------- Profit %
-* 2025-01-27 (8) ______ 13,35 ________ 4.11% # Komischer Tag, von 270 Pairs: 20 im plus rest minus! Für mich jedoch der beste Tag der Woche.
+* 2025-01-27 (8) ______ 13,35 ________ 4.11%
 * 2025-01-26 (1) ______ 0,268 ________ 0.08%
 * 2025-01-25 (1) ______ 0,613 ________ 0.19%
 * 2025-01-24 (0) ______ 0 ____________ 0%

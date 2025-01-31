@@ -14,10 +14,24 @@ Im Moment scheint sich die win ratio (aus dem Backtest's) von ~95-98% wirklich i
 
 Hier meine live_trade dayli results für den Monat Januar 2025:
 
+### Februar 2025:
+
 <details>
 <summary>>>Klick HIER für Content.<<</summary>
 
 * Day ----- (count) ---- USDT ------- Profit %
+* 2025-02-01 (0) ______ 0 ____________ 0%
+
+</details>
+
+### Januar 2025:
+
+<details>
+<summary>>>Klick HIER für Content.<<</summary>
+
+* Day ----- (count) ---- USDT ------- Profit %
+* 2025-01-31 (3) ______ 22,56 ________ 6,61%
+* 2025-01-30 (0) ______ 0 ____________ 0%
 * 2025-01-29 (4) ______ 25,98 ________ 7.61%
 * 2025-01-28 (7) ______ 9,831 ________ 2.90%
 * 2025-01-27 (8) ______ 13,35 ________ 4.11%

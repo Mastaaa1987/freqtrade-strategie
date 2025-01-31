@@ -12,12 +12,26 @@
 
 ### Also kann ich jedem nur KamaFama_2 an's Herz legen. (Ich Trade mit real Money & dieser Strategie ...)
 
-### Hier meine live_trade dayli results für den Monat Januar 2025:
+### Hier meine live_trade dayli results ...
+
+### Februar 2025:
 
 <details>
 <summary>>>Klick HIER für Content.<<</summary>
 
 * Day ----- (count) ---- USDT ------- Profit %
+* 2025-02-01 (0) ______ 0 ____________ 0%
+
+</details>
+
+### Januar 2025:
+
+<details>
+<summary>>>Klick HIER für Content.<<</summary>
+
+* Day ----- (count) ---- USDT ------- Profit %
+* 2025-01-31 (3) ______ 22,56 ________ 6,61%
+* 2025-01-30 (0) ______ 0 ____________ 0%
 * 2025-01-29 (4) ______ 25,98 ________ 7.61%
 * 2025-01-28 (7) ______ 9,831 ________ 2.90%
 * 2025-01-27 (8) ______ 13,35 ________ 4.11%

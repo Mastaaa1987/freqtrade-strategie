@@ -1,0 +1,133 @@
+{
+  "max_open_trades": 1,
+  "stake_currency": "USDT",
+  "stake_amount": "unlimited",
+  "tradable_balance_ratio": 0.99,
+  "fiat_display_currency": "USD",
+  "dry_run": true,
+  "dry_run_wallet": 1000,
+  "timeframe": "5m",
+  "cancel_open_orders_on_exit": false,
+  "use_exit_signal": true,
+  "exit_profit_only": false,
+  "ignore_roi_if_entry_signal": false,
+  "unfilledtimeout": {
+    "entry": 10,
+    "exit": 10,
+    "exit_timeout_count": 0,
+    "unit": "minutes"
+  },
+  "entry_pricing": {
+    "price_side": "other",
+    "use_order_book": true,
+    "order_book_top": 1,
+    "price_last_balance": 0.0,
+    "check_depth_of_market": {
+      "enabled": false,
+      "bids_to_ask_delta": 1
+    }
+  },
+  "exit_pricing": {
+    "price_side": "other",
+    "use_order_book": true,
+    "order_book_top": 1
+  },
+  "exchange": {
+    "name": "binance",
+    "key": "",
+    "secret": "",
+    "ccxt_config": {
+      "enableRateLimit": true
+    },
+    "ccxt_async_config": {
+      "enableRateLimit": true,
+      "rateLimit": 250
+    },
+    "pair_whitelist":["PROM/USDT", "HIVE/USDT", "AMP/USDT", "COW/USDT", "MBL/USDT", "STEEM/USDT", "ACT/USDT", "CLV/USDT", "CTXC/USDT", "PHA/USDT", "FIDA/USDT", "DEGO/USDT", "ARDR/USDT", "PENGU/USDT", "MEME/USDT", "ENA/USDT", "VIB/USDT", "TFUEL/USDT", "SUPER/USDT", "1000CAT/USDT", "WLD/USDT", "BIO/USDT", "PROS/USDT", "TNSR/USDT", "STMX/USDT", "ACA/USDT", "G/USDT", "DOGS/USDT", "BAR/USDT", "DEXE/USDT", "VANA/USDT", "BONK/USDT", "SPELL/USDT", "WIF/USDT", "EURI/USDT", "EIGEN/USDT", "BNSOL/USDT", "KAIA/USDT", "CETUS/USDT", "THE/USDT", "ACX/USDT", "ORCA/USDT", "MOVE/USDT", "ME/USDT", "VELODROME/USDT", "POL/USDT", "NEIRO/USDT", "LUMIA/USDT", "SLF/USDT", "CATI/USDT", "1MBABYDOGE/USDT", "HMSTR/USDT", "SCR/USDT", "TURBO/USDT", "RENDER/USDT", "BANANA/USDT", "1000SATS/USDT", "1INCH/USDT", "ACE/USDT", "ACH/USDT", "ACM/USDT", "AEVO/USDT", "ALCX/USDT", "ALGO/USDT", "ALICE/USDT", "ALPACA/USDT", "ALPHA/USDT", "ALPINE/USDT", "ALT/USDT", "ANKR/USDT", "APE/USDT", "API3/USDT", "APT/USDT", "ARB/USDT", "ARKM/USDT", "ARK/USDT", "ARPA/USDT", "AR/USDT", "ASR/USDT", "AST/USDT", "ATA/USDT", "ATOM/USDT", "AUDIO/USDT", "AVA/USDT", "AXL/USDT", "AXS/USDT", "BADGER/USDT", "BAKE/USDT", "BB/USDT", "BCH/USDT", "BEAMX/USDT", "BETA/USDT", "BICO/USDT", "BIFI/USDT", "BLUR/USDT", "BNX/USDT", "BOME/USDT", "BURGER/USDT", "CAKE/USDT", "CELO/USDT", "CELR/USDT", "CFX/USDT", "CHESS/USDT", "CHR/USDT", "CITY/USDT", "CKB/USDT", "COTI/USDT", "CREAM/USDT", "CRV/USDT", "CTK/USDT", "CTSI/USDT", "CYBER/USDT", "DATA/USDT", "DGB/USDT", "DIA/USDT", "DODO/USDT", "DOGE/USDT", "DUSK/USDT", "DYM/USDT", "EDU/USDT", "ELF/USDT", "ENS/USDT", "ERN/USDT", "ETC/USDT", "ETHFI/USDT", "FARM/USDT", "FET/USDT", "FIO/USDT", "FIS/USDT", "FLOKI/USDT", "FLUX/USDT", "FORTH/USDT", "FTT/USDT", "FUN/USDT", "GALA/USDT", "GLMR/USDT", "GMT/USDT", "GMX/USDT", "GNO/USDT", "GNS/USDT", "GRT/USDT", "GTC/USDT", "HARD/USDT", "HIFI/USDT", "HIGH/USDT", "HOOK/USDT", "HOT/USDT", "ICP/USDT", "ICX/USDT", "IDEX/USDT", "ID/USDT", "ILV/USDT", "INJ/USDT", "IOTA/USDT", "IOTX/USDT", "IO/USDT", "JASMY/USDT", "JOE/USDT", "JTO/USDT", "JUV/USDT", "KAVA/USDT", "KMD/USDT", "LAZIO/USDT", "LDO/USDT", "LEVER/USDT", "LINA/USDT", "LINK/USDT", "LISTA/USDT", "LOKA/USDT", "LPT/USDT", "LUNA/USDT", "LUNC/USDT", "MAGIC/USDT", "MANA/USDT", "MASK/USDT", "MAV/USDT", "MBOX/USDT", "MDT/USDT", "METIS/USDT", "MINA/USDT", "MLN/USDT", "MOVR/USDT", "NFP/USDT", "NOT/USDT", "NTRN/USDT", "NULS/USDT", "OG/USDT", "OM/USDT", "ONE/USDT", "OP/USDT", "ORDI/USDT", "OSMO/USDT", "PENDLE/USDT", "PEOPLE/USDT", "PEPE/USDT", "PERP/USDT", "PHB/USDT", "PIVX/USDT", "PIXEL/USDT", "PORTAL/USDT", "PORTO/USDT", "PSG/USDT", "PYR/USDT", "PYTH/USDT", "QUICK/USDT", "RAD/USDT", "RARE/USDT", "RAY/USDT", "REI/USDT", "REZ/USDT", "RONIN/USDT", "ROSE/USDT", "RSR/USDT", "RVN/USDT", "SAGA/USDT", "SANTOS/USDT", "SCRT/USDT", "SC/USDT", "SEI/USDT", "SHIB/USDT", "SKL/USDT", "SLP/USDT", "SSV/USDT", "STORJ/USDT", "STRK/USDT", "STX/USDT", "SUI/USDT", "SUN/USDT", "SXP/USDT", "SYN/USDT", "SYS/USDT", "TAO/USDT", "THETA/USDT", "TIA/USDT", "TKO/USDT", "TLM/USDT", "TRB/USDT", "TROY/USDT", "TRU/USDT", "UFT/USDT", "UMA/USDT", "UNI/USDT", "UTK/USDT", "VET/USDT", "VIC/USDT", "VIDT/USDT", "WAN/USDT", "WAXP/USDT", "WING/USDT", "W/USDT", "XAI/USDT", "XRP/USDT", "YGG/USDT", "ZEC/USDT", "ZK/USDT", "ZRO/USDT", "ZRX/USDT"],
+    "pair_blacklist": [
+            "(BTCUSDT_.*|ETHUSDT_.*)",
+            "(GT|HT|BTC|ETH|BNB|VITE|DF|NMR|LTC|EOS|DASH|DOT|FIL|ADA|GLM|BNT|ADX)/.*",
+            "(WBTC|BSV|BTCDOM|DEFI)/.*",
+            ".*(_PREMIUM|BEAR|BULL|HALF|HEDGE|DOWN|UP|[1235][SL])/.*",
+            "(AUD|BRZ|CAD|CHF|EUR|GBP|HKD|IDRT|JPY|NGN|RUB|SGD|TRY|UAH|USD|ZAR|UST)/.*",
+            "(BUSD|USDT|DAI|PAX|PAXG|SUSD|TUSD|USTC|USDC|USDT|VAI|USDN|USDP|FDUSD)/.*",
+            "(WBETH|WRX|XVS|KLAY|KP3R|MATIC|OOKI|ORN|UNFI|SOL|BEL)/.*",
+            "(ZEN|YFI|XTZ|XNO|XLM|XEC|WIN|TWT|TRX|STG|SNX|SAND|RUNE|RIF|REQ|RDNT|QNT|POWR|POND|PDA|OXT|C98|COMP|DCR|FIRO|FLM|FLOW|GFT|HBAR|IRIS)/.*",
+            "(NKN|NEXO|KLAY|JST|IOST|ENJ|EGLD|DYDX|DENT|CVX|CHZ|BTTC|BSW|BNB|BAND|BAL|AVAX|AMB|AEUR|AERGO|AAVE|KDA|KNC|KSM|LIT|LSK|NEO|OAX|OGN|QKC)/.*",
+            "(WBETH|WRX|XVS|SOL|ASTR|ATM|BAT|IMX|LQTY|ZIL|WOO|NEAR|AGLD|AI|STRAX|SFP|QTUM|PUNDIX|POLYX|ONT|ONG|OMNI)/.*",
+            "(XVG|VTHO|VOXEL|VANRY|T|SUSHI|SNT|RPL|RLC|QI|MTL|MKR|MANTA|LTO|LRC|HFT|GHST|GAS|FXS|CVC|COS|COMBO|BLZ|AUCTION)/.*"
+        ],
+  },
+  "pairlists": [
+        {
+            "method": "StaticPairList",
+        }
+  ],
+  "edge": {
+    "enabled": false,
+    "process_throttle_secs": 3600,
+    "calculate_since_number_of_days": 14,
+    "allowed_risk": 0.01,
+    "stoploss_range_min": -0.01,
+    "stoploss_range_max": -0.1,
+    "stoploss_range_step": -0.01,
+    "minimum_winrate": 0.60,
+    "minimum_expectancy": 0.20,
+    "min_trade_number": 10,
+    "max_trade_duration_minute": 1440,
+    "remove_pumps": false
+  },
+  "telegram": {
+    "enabled": false,
+    "token": "",
+    "chat_id": "",
+    "keyboard": [
+      [
+        "/daily",
+        "/balance",
+        "/profit"
+      ],
+      [
+        "/status table",
+        "/performance",
+        "/logs"
+      ],
+      [
+        "/stopbuy",
+        "/reload_config"
+      ]
+    ],
+   "notification_settings": {
+      "status": "off",
+      "warning": "on",
+      "startup": "off",
+      "entry": "off",
+      "exit": "off",
+      "entry_cancel": "silent",
+      "exit_cancel": "silent",
+      "entry_fill": "silent",
+      "exit_fill": "silent",
+      "protection_trigger": "off",
+      "protection_trigger_global": "off"
+    },
+    "reload": true,
+    "balance_dust_level": 0.01
+  },
+  "api_server": {
+    "enabled": true,
+    "listen_ip_address": "127.0.0.1",
+    "listen_port": 8888,
+    "verbosity": "error",
+    "jwt_secret_key": "",
+    "ws_token": "",
+    "CORS_origins": [],
+    "username": "freqtrader",
+    "password": "freqtrader"
+  },
+  "bot_name": "freqtrade",
+  "initial_state": "running",
+  "force_entry_enable": false,
+  "internals": {
+    "process_throttle_secs": 5
+  }
+}

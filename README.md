@@ -1,16 +1,18 @@
-# freqtrade-strategie
+# KamaFama Strategie
 
-## Technische Informationen
+Momentan gibt's noch nicht viel zu sagen außer wenn ihr auch gemerkt habt das die E0V1E mehr verspricht als sie hält, dann solltet ihr euch mal meine neuste Strategie an schauen. Sie verspricht zwar nicht all zu hohe win ratio (ca. 66%) aber dafür schreibt sie über das ganze Jahr eine nette Profit Ratio auch wenn man 250 Pairs laufen hat.
 
-### KamaFama Strategy ist von "Mir" (abgeleitet von adaptive ...)
+Ich werde bei Zeiten ein paar dry_run Test's Ergebnisse posten.
 
-### KamaFama_2 ist ein mixx von E0V1E & adaptive. (fastk_profit_sell von E0V1E)
+### KamaFama_2
 
-### Momentan scheint KamaFama_2 wirklich das zu halten was sie verspricht (und somit wirklich gewinne abwirft!)
+Hier habe ich den fastk profit sell von E0V1E der Strategie hinzugefügt & die sell condition raus genommen. Das hat zu folge das die win ratio auf ~96-98% gepusht wird.
 
-### Also kann ich jedem nur KamaFama_2 an's Herz legen. (Ich Trade mit real Money & dieser Strategie ...)
+So die ersten Erfahrungswerte mit KamaFama_2 sind doch recht prositiv. Im gegensatz zu E0V1E (wo der buy in immer nach einem sehr hohen swing high getätigt wird) ist der buy in meist bedeutend "smoother" an gesetzt. Was bedeutet das der Preis meist nicht so eine Achterbahn Fahrt ist wie bei E0V1E. (Soll heißen das er natürlich nach buy in der preis noch weiter fällt aber dann vill nur so bis -2% und dann smooth in die profit range geht ...)
 
-### Hier meine live_trade dayli results ...
+Im Moment scheint sich die win ratio (aus dem Backtest's) von ~95-98% wirklich im dry_run bewahrheitet. (Viele kleine Gewinne, welche sich trotz allem immer schön summieren zu tages ende ...)
+
+Hier meine live_trade dayli results für den Monat Januar 2025:
 
 ### Februar 2025:
 

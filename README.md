@@ -65,3 +65,7 @@ Hier meine live_trade dayli results für den Monat Januar 2025:
 
 </details>
 
+### For Live Dayli Stat's join me on Discord ...
+
+### https://discord.gg/DpZkYkejPc
+

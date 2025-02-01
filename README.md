@@ -2,8 +2,6 @@
 
 ## Technische Informationen
 
-### E0V1E Strategy from: https://github.com/ssssi/freqtrade_strs
-
 ### KamaFama Strategy ist von "Mir" (abgeleitet von adaptive ...)
 
 ### KamaFama_2 ist ein mixx von E0V1E & adaptive. (fastk_profit_sell von E0V1E)

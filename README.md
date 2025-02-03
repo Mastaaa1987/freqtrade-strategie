@@ -20,7 +20,9 @@ Hier meine live_trade dayli results für den Monat Januar 2025:
 <summary>>>Klick HIER für Content.<<</summary>
 
 * Day ----- (count) ---- USDT ------- Profit %
-* 2025-02-01 (0) ______ 0 ____________ 0%
+* 2025-02-03 (2) ______ 12,465 ________ 4.23%
+* 2025-02-02 (6) ______ -50,74 ______ -14.69%
+* 2025-02-01 (5) ______ -28,72 _______ -7.67%
 
 </details>
 
@@ -65,9 +67,7 @@ Hier meine live_trade dayli results für den Monat Januar 2025:
 
 </details>
 
-### Für Live Tages Statistiken verbinde dich in Discord:
-
-### For Live Dayli Stats join me on Discord:
+### Für Live Tages Statistiken verbinde dich in Discord // For Live Dayli Stats join me on Discord:
 
 ### https://discord.gg/DpZkYkejPc
 

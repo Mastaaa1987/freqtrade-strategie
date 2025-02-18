@@ -32,7 +32,7 @@ def williams_r(dataframe: DataFrame, period: int = 14) -> Series:
 
 # ------- Strategie by Mastaaa1987
 
-class KamaFama_3_1(IStrategy):
+class KamaFama_3(IStrategy):
     INTERFACE_VERSION = 2
 
     @property

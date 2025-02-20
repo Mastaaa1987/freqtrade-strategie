@@ -51,16 +51,40 @@ class KamaFama_3(IStrategy):
             }
         ]
 
+    buy_params = {
+        "buy_cti": -0.56,
+        "buy_mama_diff": 0.01,
+        "buy_r_14": -80.201,
+        "buy_rsi_112": 99,
+        "buy_rsi_84": 90,
+    }
+    sell_params = {
+        "sell_fastx": 84,  # value loaded from strategy
+    }
+
     minimal_roi = {
         "0": 1
     }
+    # minimal_roi = {
+    #     "0": 0.1,
+    #     "60": 0.05,
+    #     "120": 0.03,
+    #     "180": 0.01
+    # }
     cc = {}
 
     # Stoploss:
     stoploss = -0.25
 
+    # Buy Params
+    buy_r_14 = DecimalParameter(-100, 0, default=buy_params['buy_r_14'], space='buy', optimize=True)
+    buy_mama_diff = DecimalParameter(0.01, 0.1, default=buy_params['buy_mama_diff'], decimals=2, space='buy', optimize=True)
+    buy_cti = DecimalParameter(-1, 1, default=buy_params['buy_cti'], decimals=2, space='buy', optimize=True)
+    buy_rsi_84 = IntParameter(0, 100, default=buy_params['buy_rsi_84'], space='buy', optimize=True)
+    buy_rsi_112 = IntParameter(0, 100, default=buy_params['buy_rsi_112'], space='buy', optimize=True)
+
     # Sell Params
-    sell_fastx = IntParameter(50, 100, default=84, space='sell', optimize=True)
+    sell_fastx = IntParameter(50, 100, default=sell_params['sell_fastx'], space='sell', optimize=True)
 
     # Trailing stop:
     trailing_stop = False
@@ -148,12 +172,11 @@ class KamaFama_3(IStrategy):
         buy = (
                 (dataframe['mama'] > dataframe['kama']) &
                 (dataframe['kama'] > dataframe['fama']) &
-                (dataframe['r_14'] > -61.3) &
-                (dataframe['mama_diff'] > 0.02) &
-                (dataframe['cti'] > 0.7) &
-                (dataframe['rsi_84'] < 60) &
-                (dataframe['rsi_112'] < 60) &
-                (dataframe['open'] < dataframe['close'])
+                (dataframe['r_14'] > self.buy_r_14.value) &
+                (dataframe['mama_diff'] > self.buy_mama_diff.value) &
+                (dataframe['cti'] > self.buy_cti.value) &
+                (dataframe['rsi_84'] < self.buy_rsi_84.value) &
+                (dataframe['rsi_112'] < self.buy_rsi_112.value)
         )
         conditions.append(buy)
         dataframe.loc[buy, 'enter_tag'] += 'buy'

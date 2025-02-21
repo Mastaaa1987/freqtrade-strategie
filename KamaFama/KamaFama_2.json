@@ -1,0 +1,39 @@
+{
+    "strategy_name": "KamaFama_2",
+    "params": {
+      "trailing": {
+        "trailing_stop": false,
+        "trailing_stop_positive": 0.002,
+        "trailing_stop_positive_offset": 0.05,
+        "trailing_only_offset_is_reached": true
+      },
+      "buy": {
+        "close_288_buy": 1.214,
+        "close_48_buy": 1.04,
+        "cti_buy": -0.623,
+        "mama_diff_buy": -0.006,
+        "mama_percent_buy": 0.805,
+        "r_14_buy": -65.9,
+        "rsi_112_buy": 50,
+        "rsi_84_buy": 85
+      },
+      "sell": {
+        "sell_fastx": 84
+      },
+      "protection": {},
+      "roi": {
+        "0": 0.207,
+        "39": 0.06,
+        "96": 0.011,
+        "122": 0
+      },
+      "stoploss": {
+        "stoploss": -0.334
+      },
+      "max_open_trades": {
+        "max_open_trades": 1
+      }
+    },
+    "ft_stratparam_v": 1,
+    "export_time": "2025-02-21 14:21:10.641587+00:00"
+  }

@@ -12,6 +12,10 @@ So die ersten Erfahrungswerte mit KamaFama_2 sind doch recht prositiv. Im gegens
 
 Im Moment scheint sich die win ratio (aus dem Backtest's) von ~95-98% wirklich im dry_run bewahrheitet. (Viele kleine Gewinne, welche sich trotz allem immer schön summieren zu tages ende ...)
 
+# Kleiner Nachtrag:
+
+### Ich hab's auch schon auf gegeben mein Geld zu verlieren, es rentiert sich einfach alles nicht !
+
 Hier meine live_trade dayli results für den Monat Januar 2025:
 
 ### Februar 2025:

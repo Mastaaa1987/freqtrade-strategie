@@ -1,3 +1,7 @@
+# Kleiner Nachtrag:
+
+# Ich hab's auch schon auf gegeben mein Geld zu verlieren, es rentiert sich einfach alles nicht !
+
 # KamaFama Strategie
 
 Momentan gibt's noch nicht viel zu sagen außer wenn ihr auch gemerkt habt das die E0V1E mehr verspricht als sie hält, dann solltet ihr euch mal meine neuste Strategie an schauen. Sie verspricht zwar nicht all zu hohe win ratio (ca. 66%) aber dafür schreibt sie über das ganze Jahr eine nette Profit Ratio auch wenn man 250 Pairs laufen hat.
@@ -11,10 +15,6 @@ Hier habe ich den fastk profit sell von E0V1E der Strategie hinzugefügt & die s
 So die ersten Erfahrungswerte mit KamaFama_2 sind doch recht prositiv. Im gegensatz zu E0V1E (wo der buy in immer nach einem sehr hohen swing high getätigt wird) ist der buy in meist bedeutend "smoother" an gesetzt. Was bedeutet das der Preis meist nicht so eine Achterbahn Fahrt ist wie bei E0V1E. (Soll heißen das er natürlich nach buy in der preis noch weiter fällt aber dann vill nur so bis -2% und dann smooth in die profit range geht ...)
 
 Im Moment scheint sich die win ratio (aus dem Backtest's) von ~95-98% wirklich im dry_run bewahrheitet. (Viele kleine Gewinne, welche sich trotz allem immer schön summieren zu tages ende ...)
-
-# Kleiner Nachtrag:
-
-### Ich hab's auch schon auf gegeben mein Geld zu verlieren, es rentiert sich einfach alles nicht !
 
 Hier meine live_trade dayli results für den Monat Januar 2025:
 

@@ -1,7 +1,3 @@
-# Kleiner Nachtrag:
-
-# Ich hab's auch schon auf gegeben mein Geld zu verlieren, es rentiert sich einfach alles nicht !
-
 # KamaFama Strategie
 
 Momentan gibt's noch nicht viel zu sagen außer wenn ihr auch gemerkt habt das die E0V1E mehr verspricht als sie hält, dann solltet ihr euch mal meine neuste Strategie an schauen. Sie verspricht zwar nicht all zu hohe win ratio (ca. 66%) aber dafür schreibt sie über das ganze Jahr eine nette Profit Ratio auch wenn man 250 Pairs laufen hat.
